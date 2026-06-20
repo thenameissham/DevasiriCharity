@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --foreground: #08111f;
+  --surface: #ffffff;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --accent: #06b6d4;
+  --success: #16a34a;
+  --warning: #f59e0b;
+  --danger: #e11d48;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 5%, rgba(37, 99, 235, 0.14), transparent 28%),
+    radial-gradient(circle at 90% 10%, rgba(6, 182, 212, 0.12), transparent 26%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 42%, #eef4ff 100%);
+  color: var(--foreground);
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.22);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 3px;
+}
+
+.glass-card {
+  border: 1px solid rgba(226, 232, 240, 0.84);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.1);
+  backdrop-filter: blur(20px);
+}
+
+.kaggle-grid {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.055) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-float-soft {
+  animation: float-soft 7s ease-in-out infinite;
+}
+
+.animate-ticker {
+  animation: ticker 32s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}   
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.premium-orb {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), transparent 18%),
+    radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.6), transparent 34%),
+    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.5), transparent 30%);
+  filter: blur(0.2px);
+}
+
+.surface-noise {
+  position: relative;
+}
+
+.surface-noise::before {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image:
+    radial-gradient(circle at 20% 30%, #0f172a 0.8px, transparent 0.8px),
+    radial-gradient(circle at 80% 60%, #0f172a 0.8px, transparent 0.8px);
+  background-size: 18px 18px;
+}
