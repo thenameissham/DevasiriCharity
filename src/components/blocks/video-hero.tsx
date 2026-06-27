@@ -38,10 +38,10 @@ const flowCards = [
 
 export function VideoHero() {
   return (
-    <HeroVideoBackground className="px-6 pb-24 pt-32 sm:px-8 sm:pt-36 lg:px-12 lg:pb-28">
+    <HeroVideoBackground className="px-6 pb-24 pt-36 sm:px-8 sm:pt-40 lg:px-12 lg:pb-28">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.94fr_1.06fr] lg:items-center">
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/78 px-4 py-2 text-sm font-black text-blue-700 shadow-sm backdrop-blur-xl">
+        <div className="relative z-20">
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/76 px-4 py-2 text-sm font-black text-blue-700 shadow-sm backdrop-blur-xl">
             <Sparkles className="h-4 w-4" />
             Karnataka education support platform
           </div>
@@ -57,7 +57,7 @@ export function VideoHero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button href="/apply" size="lg" className="rounded-[20px] px-7">
+            <Button href="/apply" size="lg" className="rounded-[20px] px-7 devasiri-shine">
               Check Scholarship Eligibility
               <ArrowRight className="h-5 w-5" />
             </Button>
@@ -77,7 +77,7 @@ export function VideoHero() {
             {trustPoints.map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-2 rounded-[18px] border border-slate-200 bg-white/60 px-4 py-3 text-sm font-bold text-slate-700 shadow-sm backdrop-blur-xl"
+                className="flex items-center gap-2 rounded-[18px] border border-slate-200 bg-white/66 px-4 py-3 text-sm font-bold text-slate-700 shadow-sm backdrop-blur-xl"
               >
                 <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
                 {item}

@@ -1,4 +1,5 @@
 import { DonationWidget } from "@/components/blocks/donation-widget";
+import { Navbar } from "@/components/layouts/navbar";
 import { ImpactStoryGrid } from "@/components/blocks/impact-story-grid";
 import { LiveTicker } from "@/components/blocks/live-ticker";
 import { PlatformReliability } from "@/components/blocks/platform-reliability";
@@ -22,6 +23,7 @@ export async function HomePageSections() {
 
   return (
     <>
+      <Navbar />
       <VideoHero />
       <PremiumActionDock />
       <LiveTicker />
