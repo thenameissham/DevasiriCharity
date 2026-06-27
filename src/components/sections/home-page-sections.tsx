@@ -3,6 +3,7 @@ import { ImpactStoryGrid } from "@/components/blocks/impact-story-grid";
 import { LiveTicker } from "@/components/blocks/live-ticker";
 import { PlatformReliability } from "@/components/blocks/platform-reliability";
 import { PremiumCTA } from "@/components/blocks/premium-cta";
+import { PremiumActionDock } from "@/components/blocks/premium-action-dock";
 import { ScholarshipEntry } from "@/components/blocks/scholarship-entry";
 import { FloatingIllustration } from "@/components/ui/floating-illustration";
 import { SponsorSection } from "@/components/blocks/sponsor-section";
@@ -22,6 +23,7 @@ export async function HomePageSections() {
   return (
     <>
       <VideoHero />
+      <PremiumActionDock />
       <LiveTicker />
       <ScholarshipEntry />
       <SuccessMetrics />
