@@ -139,7 +139,7 @@ export default async function CampaignDetailPage({
               <img
                 src={campaign.coverImageUrl ?? "/illustrations/campaign-education-support.png"}
                 alt={campaign.title}
-                className="relative mx-auto h-auto w-full max-w-[760px] rounded-[34px] object-contain"
+                className="relative mx-auto h-auto w-full max-w-[760px] object-contain"
               />
             </div>
           </div>

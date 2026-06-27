@@ -32,7 +32,7 @@ export function DonationIntentForm({
 
       <div className="relative">
         <div className="flex items-start gap-4">
-          <div className="flex h-13 w-13 shrink-0 items-center justify-center rounded-[20px] bg-blue-600 text-white shadow-[0_16px_40px_rgba(37,99,235,0.24)]">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-blue-600 text-white shadow-[0_16px_40px_rgba(37,99,235,0.24)]">
             <HeartHandshake className="h-6 w-6" />
           </div>
 
