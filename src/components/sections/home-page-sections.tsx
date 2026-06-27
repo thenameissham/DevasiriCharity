@@ -13,6 +13,7 @@ import { Testimonials } from "@/components/blocks/testimonials";
 import { TransparencyDashboard } from "@/components/blocks/transparency-dashboard";
 import { TrustPillars } from "@/components/blocks/trust-pillars";
 import { VideoHero } from "@/components/blocks/video-hero";
+import { HomeExperienceShowcase } from "@/components/blocks/home-experience-showcase";
 import { PublicCampaignCard } from "@/components/campaigns/public-campaign-card";
 import { Button } from "@/components/ui/button";
 import { SectionShell } from "@/components/ui/section-shell";
@@ -26,6 +27,7 @@ export async function HomePageSections() {
       <Navbar />
       <VideoHero />
       <PremiumActionDock />
+      <HomeExperienceShowcase />
       <LiveTicker />
       <ScholarshipEntry />
       <SuccessMetrics />

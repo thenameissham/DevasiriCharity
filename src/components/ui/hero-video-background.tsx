@@ -18,27 +18,22 @@ export function HeroVideoBackground({
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_42%,#edf6ff_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,#ffffff_0%,#f8fbff_38%,#edf6ff_100%)]"
       />
 
       <div
         aria-hidden="true"
-        className="absolute -left-40 top-10 h-[520px] w-[520px] rounded-full bg-blue-300/28 blur-[90px] devasiri-float-slow"
+        className="absolute -left-48 top-0 h-[640px] w-[640px] rounded-full bg-blue-400/24 blur-[110px] devasiri-float-slow"
       />
 
       <div
         aria-hidden="true"
-        className="absolute right-[-180px] top-20 h-[620px] w-[620px] rounded-full bg-cyan-300/28 blur-[100px] devasiri-float-medium"
+        className="absolute right-[-220px] top-20 h-[700px] w-[700px] rounded-full bg-cyan-300/26 blur-[115px] devasiri-float-medium"
       />
 
       <div
         aria-hidden="true"
-        className="absolute bottom-[-220px] left-1/2 h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-slate-900/[0.055] blur-[90px]"
-      />
-
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(255,255,255,0)_0%,rgba(255,255,255,0.64)_72%)]"
+        className="absolute bottom-[-260px] left-1/2 h-[620px] w-[1100px] -translate-x-1/2 rounded-full bg-slate-950/[0.07] blur-[110px]"
       />
 
       <div
@@ -48,17 +43,17 @@ export function HeroVideoBackground({
 
       <div
         aria-hidden="true"
-        className="absolute left-[8%] top-[28%] h-24 w-24 rounded-[32px] border border-blue-200/50 bg-white/34 shadow-[0_24px_70px_rgba(37,99,235,0.12)] backdrop-blur-xl devasiri-float-medium"
+        className="absolute left-[6%] top-[30%] h-28 w-28 rotate-6 rounded-[34px] border border-blue-200/60 bg-white/34 shadow-[0_24px_80px_rgba(37,99,235,0.14)] backdrop-blur-xl devasiri-float-medium"
       />
 
       <div
         aria-hidden="true"
-        className="absolute right-[9%] top-[24%] h-20 w-20 rotate-12 rounded-full border border-cyan-200/50 bg-white/34 shadow-[0_24px_70px_rgba(6,182,212,0.12)] backdrop-blur-xl devasiri-float-slow"
+        className="absolute right-[7%] top-[25%] h-24 w-24 rounded-full border border-cyan-200/60 bg-white/32 shadow-[0_24px_80px_rgba(6,182,212,0.14)] backdrop-blur-xl devasiri-float-slow"
       />
 
       <div
         aria-hidden="true"
-        className="absolute right-[20%] bottom-[18%] h-28 w-28 rounded-[36px] border border-emerald-200/50 bg-white/30 shadow-[0_24px_70px_rgba(16,185,129,0.1)] backdrop-blur-xl devasiri-float-medium"
+        className="absolute bottom-[16%] right-[18%] h-32 w-32 -rotate-6 rounded-[40px] border border-emerald-200/60 bg-white/30 shadow-[0_24px_80px_rgba(16,185,129,0.12)] backdrop-blur-xl devasiri-float-medium"
       />
 
       <div className="relative z-10">{children}</div>

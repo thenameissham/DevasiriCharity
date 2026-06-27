@@ -278,3 +278,70 @@ a {
     animation: none;
   }
 }
+
+/* Devasiri premium homepage enhancement */
+.devasiri-grid-mask {
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(circle at 56% 36%, black 0%, transparent 74%);
+}
+
+.devasiri-float-slow {
+  animation: devasiri-float 8s ease-in-out infinite;
+}
+
+.devasiri-float-medium {
+  animation: devasiri-float 6s ease-in-out infinite;
+}
+
+.devasiri-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.devasiri-shine::after {
+  content: "";
+  position: absolute;
+  inset: -60% auto -60% -40%;
+  width: 38%;
+  transform: rotate(18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: devasiri-shine 4.8s ease-in-out infinite;
+}
+
+@keyframes devasiri-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes devasiri-shine {
+  0% {
+    left: -45%;
+  }
+
+  45%,
+  100% {
+    left: 125%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .devasiri-float-slow,
+  .devasiri-float-medium,
+  .devasiri-shine::after {
+    animation: none;
+  }
+}
