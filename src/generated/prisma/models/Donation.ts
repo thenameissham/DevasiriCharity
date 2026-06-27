@@ -39,6 +39,10 @@ export type DonationMinAggregateOutputType = {
   amountPaise: number | null
   currency: string | null
   status: $Enums.DonationStatus | null
+  paymentStatus: $Enums.DonationPaymentStatus | null
+  paymentProvider: $Enums.DonationPaymentProvider | null
+  adminNotes: string | null
+  paidAt: Date | null
   donorName: string | null
   donorEmail: string | null
   donorPhone: string | null
@@ -58,6 +62,10 @@ export type DonationMaxAggregateOutputType = {
   amountPaise: number | null
   currency: string | null
   status: $Enums.DonationStatus | null
+  paymentStatus: $Enums.DonationPaymentStatus | null
+  paymentProvider: $Enums.DonationPaymentProvider | null
+  adminNotes: string | null
+  paidAt: Date | null
   donorName: string | null
   donorEmail: string | null
   donorPhone: string | null
@@ -77,6 +85,10 @@ export type DonationCountAggregateOutputType = {
   amountPaise: number
   currency: number
   status: number
+  paymentStatus: number
+  paymentProvider: number
+  adminNotes: number
+  paidAt: number
   donorName: number
   donorEmail: number
   donorPhone: number
@@ -106,6 +118,10 @@ export type DonationMinAggregateInputType = {
   amountPaise?: true
   currency?: true
   status?: true
+  paymentStatus?: true
+  paymentProvider?: true
+  adminNotes?: true
+  paidAt?: true
   donorName?: true
   donorEmail?: true
   donorPhone?: true
@@ -125,6 +141,10 @@ export type DonationMaxAggregateInputType = {
   amountPaise?: true
   currency?: true
   status?: true
+  paymentStatus?: true
+  paymentProvider?: true
+  adminNotes?: true
+  paidAt?: true
   donorName?: true
   donorEmail?: true
   donorPhone?: true
@@ -144,6 +164,10 @@ export type DonationCountAggregateInputType = {
   amountPaise?: true
   currency?: true
   status?: true
+  paymentStatus?: true
+  paymentProvider?: true
+  adminNotes?: true
+  paidAt?: true
   donorName?: true
   donorEmail?: true
   donorPhone?: true
@@ -250,6 +274,10 @@ export type DonationGroupByOutputType = {
   amountPaise: number
   currency: string
   status: $Enums.DonationStatus
+  paymentStatus: $Enums.DonationPaymentStatus
+  paymentProvider: $Enums.DonationPaymentProvider
+  adminNotes: string | null
+  paidAt: Date | null
   donorName: string
   donorEmail: string
   donorPhone: string | null
@@ -292,6 +320,10 @@ export type DonationWhereInput = {
   amountPaise?: Prisma.IntFilter<"Donation"> | number
   currency?: Prisma.StringFilter<"Donation"> | string
   status?: Prisma.EnumDonationStatusFilter<"Donation"> | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFilter<"Donation"> | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFilter<"Donation"> | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.StringNullableFilter<"Donation"> | string | null
+  paidAt?: Prisma.DateTimeNullableFilter<"Donation"> | Date | string | null
   donorName?: Prisma.StringFilter<"Donation"> | string
   donorEmail?: Prisma.StringFilter<"Donation"> | string
   donorPhone?: Prisma.StringNullableFilter<"Donation"> | string | null
@@ -314,6 +346,10 @@ export type DonationOrderByWithRelationInput = {
   amountPaise?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
+  paymentProvider?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   donorName?: Prisma.SortOrder
   donorEmail?: Prisma.SortOrder
   donorPhone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -340,6 +376,10 @@ export type DonationWhereUniqueInput = Prisma.AtLeast<{
   amountPaise?: Prisma.IntFilter<"Donation"> | number
   currency?: Prisma.StringFilter<"Donation"> | string
   status?: Prisma.EnumDonationStatusFilter<"Donation"> | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFilter<"Donation"> | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFilter<"Donation"> | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.StringNullableFilter<"Donation"> | string | null
+  paidAt?: Prisma.DateTimeNullableFilter<"Donation"> | Date | string | null
   donorName?: Prisma.StringFilter<"Donation"> | string
   donorEmail?: Prisma.StringFilter<"Donation"> | string
   donorPhone?: Prisma.StringNullableFilter<"Donation"> | string | null
@@ -361,6 +401,10 @@ export type DonationOrderByWithAggregationInput = {
   amountPaise?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
+  paymentProvider?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrderInput | Prisma.SortOrder
+  paidAt?: Prisma.SortOrderInput | Prisma.SortOrder
   donorName?: Prisma.SortOrder
   donorEmail?: Prisma.SortOrder
   donorPhone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -388,6 +432,10 @@ export type DonationScalarWhereWithAggregatesInput = {
   amountPaise?: Prisma.IntWithAggregatesFilter<"Donation"> | number
   currency?: Prisma.StringWithAggregatesFilter<"Donation"> | string
   status?: Prisma.EnumDonationStatusWithAggregatesFilter<"Donation"> | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusWithAggregatesFilter<"Donation"> | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderWithAggregatesFilter<"Donation"> | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.StringNullableWithAggregatesFilter<"Donation"> | string | null
+  paidAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Donation"> | Date | string | null
   donorName?: Prisma.StringWithAggregatesFilter<"Donation"> | string
   donorEmail?: Prisma.StringWithAggregatesFilter<"Donation"> | string
   donorPhone?: Prisma.StringNullableWithAggregatesFilter<"Donation"> | string | null
@@ -407,6 +455,10 @@ export type DonationCreateInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -427,6 +479,10 @@ export type DonationUncheckedCreateInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -447,6 +503,10 @@ export type DonationUpdateInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -467,6 +527,10 @@ export type DonationUncheckedUpdateInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -487,6 +551,10 @@ export type DonationCreateManyInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -506,6 +574,10 @@ export type DonationUpdateManyMutationInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -523,6 +595,10 @@ export type DonationUncheckedUpdateManyInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -552,6 +628,10 @@ export type DonationCountOrderByAggregateInput = {
   amountPaise?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
+  paymentProvider?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrder
+  paidAt?: Prisma.SortOrder
   donorName?: Prisma.SortOrder
   donorEmail?: Prisma.SortOrder
   donorPhone?: Prisma.SortOrder
@@ -575,6 +655,10 @@ export type DonationMaxOrderByAggregateInput = {
   amountPaise?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
+  paymentProvider?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrder
+  paidAt?: Prisma.SortOrder
   donorName?: Prisma.SortOrder
   donorEmail?: Prisma.SortOrder
   donorPhone?: Prisma.SortOrder
@@ -594,6 +678,10 @@ export type DonationMinOrderByAggregateInput = {
   amountPaise?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  paymentStatus?: Prisma.SortOrder
+  paymentProvider?: Prisma.SortOrder
+  adminNotes?: Prisma.SortOrder
+  paidAt?: Prisma.SortOrder
   donorName?: Prisma.SortOrder
   donorEmail?: Prisma.SortOrder
   donorPhone?: Prisma.SortOrder
@@ -705,6 +793,14 @@ export type EnumDonationStatusFieldUpdateOperationsInput = {
   set?: $Enums.DonationStatus
 }
 
+export type EnumDonationPaymentStatusFieldUpdateOperationsInput = {
+  set?: $Enums.DonationPaymentStatus
+}
+
+export type EnumDonationPaymentProviderFieldUpdateOperationsInput = {
+  set?: $Enums.DonationPaymentProvider
+}
+
 export type DonationCreateNestedOneWithoutPaymentTransactionsInput = {
   create?: Prisma.XOR<Prisma.DonationCreateWithoutPaymentTransactionsInput, Prisma.DonationUncheckedCreateWithoutPaymentTransactionsInput>
   connectOrCreate?: Prisma.DonationCreateOrConnectWithoutPaymentTransactionsInput
@@ -726,6 +822,10 @@ export type DonationCreateWithoutUserInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -745,6 +845,10 @@ export type DonationUncheckedCreateWithoutUserInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -793,6 +897,10 @@ export type DonationScalarWhereInput = {
   amountPaise?: Prisma.IntFilter<"Donation"> | number
   currency?: Prisma.StringFilter<"Donation"> | string
   status?: Prisma.EnumDonationStatusFilter<"Donation"> | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFilter<"Donation"> | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFilter<"Donation"> | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.StringNullableFilter<"Donation"> | string | null
+  paidAt?: Prisma.DateTimeNullableFilter<"Donation"> | Date | string | null
   donorName?: Prisma.StringFilter<"Donation"> | string
   donorEmail?: Prisma.StringFilter<"Donation"> | string
   donorPhone?: Prisma.StringNullableFilter<"Donation"> | string | null
@@ -812,6 +920,10 @@ export type DonationCreateWithoutCampaignInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -831,6 +943,10 @@ export type DonationUncheckedCreateWithoutCampaignInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -876,6 +992,10 @@ export type DonationCreateWithoutPaymentTransactionsInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -895,6 +1015,10 @@ export type DonationUncheckedCreateWithoutPaymentTransactionsInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -930,6 +1054,10 @@ export type DonationUpdateWithoutPaymentTransactionsInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -949,6 +1077,10 @@ export type DonationUncheckedUpdateWithoutPaymentTransactionsInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -968,6 +1100,10 @@ export type DonationCreateManyUserInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -986,6 +1122,10 @@ export type DonationUpdateWithoutUserInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1005,6 +1145,10 @@ export type DonationUncheckedUpdateWithoutUserInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1024,6 +1168,10 @@ export type DonationUncheckedUpdateManyWithoutUserInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1042,6 +1190,10 @@ export type DonationCreateManyCampaignInput = {
   amountPaise: number
   currency?: string
   status?: $Enums.DonationStatus
+  paymentStatus?: $Enums.DonationPaymentStatus
+  paymentProvider?: $Enums.DonationPaymentProvider
+  adminNotes?: string | null
+  paidAt?: Date | string | null
   donorName: string
   donorEmail: string
   donorPhone?: string | null
@@ -1060,6 +1212,10 @@ export type DonationUpdateWithoutCampaignInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1079,6 +1235,10 @@ export type DonationUncheckedUpdateWithoutCampaignInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1098,6 +1258,10 @@ export type DonationUncheckedUpdateManyWithoutCampaignInput = {
   amountPaise?: Prisma.IntFieldUpdateOperationsInput | number
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.EnumDonationStatusFieldUpdateOperationsInput | $Enums.DonationStatus
+  paymentStatus?: Prisma.EnumDonationPaymentStatusFieldUpdateOperationsInput | $Enums.DonationPaymentStatus
+  paymentProvider?: Prisma.EnumDonationPaymentProviderFieldUpdateOperationsInput | $Enums.DonationPaymentProvider
+  adminNotes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  paidAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   donorName?: Prisma.StringFieldUpdateOperationsInput | string
   donorEmail?: Prisma.StringFieldUpdateOperationsInput | string
   donorPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1147,6 +1311,10 @@ export type DonationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   amountPaise?: boolean
   currency?: boolean
   status?: boolean
+  paymentStatus?: boolean
+  paymentProvider?: boolean
+  adminNotes?: boolean
+  paidAt?: boolean
   donorName?: boolean
   donorEmail?: boolean
   donorPhone?: boolean
@@ -1170,6 +1338,10 @@ export type DonationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   amountPaise?: boolean
   currency?: boolean
   status?: boolean
+  paymentStatus?: boolean
+  paymentProvider?: boolean
+  adminNotes?: boolean
+  paidAt?: boolean
   donorName?: boolean
   donorEmail?: boolean
   donorPhone?: boolean
@@ -1191,6 +1363,10 @@ export type DonationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   amountPaise?: boolean
   currency?: boolean
   status?: boolean
+  paymentStatus?: boolean
+  paymentProvider?: boolean
+  adminNotes?: boolean
+  paidAt?: boolean
   donorName?: boolean
   donorEmail?: boolean
   donorPhone?: boolean
@@ -1212,6 +1388,10 @@ export type DonationSelectScalar = {
   amountPaise?: boolean
   currency?: boolean
   status?: boolean
+  paymentStatus?: boolean
+  paymentProvider?: boolean
+  adminNotes?: boolean
+  paidAt?: boolean
   donorName?: boolean
   donorEmail?: boolean
   donorPhone?: boolean
@@ -1226,7 +1406,7 @@ export type DonationSelectScalar = {
   updatedAt?: boolean
 }
 
-export type DonationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amountPaise" | "currency" | "status" | "donorName" | "donorEmail" | "donorPhone" | "isAnonymous" | "message" | "userId" | "campaignId" | "receiptNumber" | "receiptUrl" | "donatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["donation"]>
+export type DonationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "amountPaise" | "currency" | "status" | "paymentStatus" | "paymentProvider" | "adminNotes" | "paidAt" | "donorName" | "donorEmail" | "donorPhone" | "isAnonymous" | "message" | "userId" | "campaignId" | "receiptNumber" | "receiptUrl" | "donatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["donation"]>
 export type DonationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Donation$userArgs<ExtArgs>
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
@@ -1254,6 +1434,10 @@ export type $DonationPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     amountPaise: number
     currency: string
     status: $Enums.DonationStatus
+    paymentStatus: $Enums.DonationPaymentStatus
+    paymentProvider: $Enums.DonationPaymentProvider
+    adminNotes: string | null
+    paidAt: Date | null
     donorName: string
     donorEmail: string
     donorPhone: string | null
@@ -1696,6 +1880,10 @@ export interface DonationFieldRefs {
   readonly amountPaise: Prisma.FieldRef<"Donation", 'Int'>
   readonly currency: Prisma.FieldRef<"Donation", 'String'>
   readonly status: Prisma.FieldRef<"Donation", 'DonationStatus'>
+  readonly paymentStatus: Prisma.FieldRef<"Donation", 'DonationPaymentStatus'>
+  readonly paymentProvider: Prisma.FieldRef<"Donation", 'DonationPaymentProvider'>
+  readonly adminNotes: Prisma.FieldRef<"Donation", 'String'>
+  readonly paidAt: Prisma.FieldRef<"Donation", 'DateTime'>
   readonly donorName: Prisma.FieldRef<"Donation", 'String'>
   readonly donorEmail: Prisma.FieldRef<"Donation", 'String'>
   readonly donorPhone: Prisma.FieldRef<"Donation", 'String'>

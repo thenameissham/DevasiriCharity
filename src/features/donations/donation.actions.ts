@@ -64,17 +64,16 @@ export async function createDonationIntentAction(formData: FormData) {
     const donation = await prisma.donation.create({
       data: {
         campaignId: data.campaignId,
-        donorName: data.isAnonymous ? "Anonymous Donor" : data.donorName,
+        donorName: data.donorName,
         donorEmail: data.donorEmail,
         donorPhone: data.donorPhone,
         amountPaise: toPaise(data.amountRupees),
         currency: "INR",
         status: "PENDING",
-        paymentStatus: "PENDING",
-        paymentProvider: "MANUAL",
-        receiptNumber: reference,
-        message: data.message,
-        isAnonymous: data.isAnonymous
+        receiptNumber: reference
+      },
+      select: {
+        receiptNumber: true
       }
     });
 
@@ -92,4 +91,4 @@ export async function createDonationIntentAction(formData: FormData) {
       "Donation could not be started. Please try again."
     );
   }
-} 
+}

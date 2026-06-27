@@ -155,9 +155,7 @@ export default async function AdminDonationsPage({
                       </div>
 
                       <h3 className="mt-4 text-xl font-black tracking-[-0.045em] text-slate-950">
-                        {donation.isAnonymous
-                          ? "Anonymous Donor"
-                          : donation.donorName}
+                        {donation.donorName}
                       </h3>
 
                       <p className="mt-2 text-sm leading-6 text-slate-600">

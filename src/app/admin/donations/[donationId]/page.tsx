@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, CheckCircle2, ExternalLink, XCircle } from "lucide-react";
@@ -42,7 +43,7 @@ function Row({
   value
 }: {
   readonly label: string;
-  readonly value: React.ReactNode;
+  readonly value: ReactNode;
 }) {
   return (
     <div className="rounded-[20px] border border-slate-200 bg-slate-50 p-4">
@@ -83,7 +84,7 @@ export default async function AdminDonationDetailPage({
     <DashboardShell
       role="ADMIN"
       title="Donation Review"
-      description="Verify donation intent, update payment status, and access receipt reference."
+      description="Verify donation intent, update donation status, and access receipt reference."
       userName={session.user.name ?? session.user.email ?? "Admin"}
     >
       <Link
@@ -109,20 +110,14 @@ export default async function AdminDonationDetailPage({
             <div className="grid gap-4 md:grid-cols-2">
               <Row label="Donor Name" value={donation.donorName} />
               <Row label="Donor Email" value={donation.donorEmail} />
-              <Row label="Donor Phone" value={donation.donorPhone} />
-              <Row label="Anonymous" value={donation.isAnonymous ? "Yes" : "No"} />
+              <Row label="Donor Phone" value={donation.donorPhone ?? "Not provided"} />
               <Row label="Amount" value={formatINRFromPaise(donation.amountPaise)} />
               <Row label="Currency" value={donation.currency} />
               <Row label="Donation Status" value={donation.status} />
-              <Row label="Payment Status" value={donation.paymentStatus} />
-              <Row label="Payment Provider" value={donation.paymentProvider} />
+              <Row label="Receipt Number" value={donation.receiptNumber ?? "Not generated"} />
               <Row label="Created At" value={formatDateTime(donation.createdAt)} />
-              <Row label="Paid At" value={formatDateTime(donation.paidAt)} />
+              <Row label="Last Updated" value={formatDateTime(donation.updatedAt)} />
               <Row label="Campaign" value={donation.campaign.title} />
-            </div>
-
-            <div className="mt-4">
-              <Row label="Donor Message" value={donation.message} />
             </div>
           </DashboardPanel>
 
@@ -163,8 +158,8 @@ export default async function AdminDonationDetailPage({
                 <textarea
                   name="adminNotes"
                   rows={5}
-                  defaultValue={donation.adminNotes ?? ""}
                   disabled={!canReview}
+                  placeholder="Optional note. Stored in audit log."
                   className="mt-2 w-full rounded-[18px] border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-950 disabled:bg-slate-100"
                 />
               </label>

@@ -1954,6 +1954,10 @@ export const DonationScalarFieldEnum = {
   amountPaise: 'amountPaise',
   currency: 'currency',
   status: 'status',
+  paymentStatus: 'paymentStatus',
+  paymentProvider: 'paymentProvider',
+  adminNotes: 'adminNotes',
+  paidAt: 'paidAt',
   donorName: 'donorName',
   donorEmail: 'donorEmail',
   donorPhone: 'donorPhone',
@@ -2400,6 +2404,34 @@ export type EnumDonationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$P
  * Reference to a field of type 'DonationStatus[]'
  */
 export type ListEnumDonationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DonationStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DonationPaymentStatus'
+ */
+export type EnumDonationPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DonationPaymentStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'DonationPaymentStatus[]'
+ */
+export type ListEnumDonationPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DonationPaymentStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DonationPaymentProvider'
+ */
+export type EnumDonationPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DonationPaymentProvider'>
+    
+
+
+/**
+ * Reference to a field of type 'DonationPaymentProvider[]'
+ */
+export type ListEnumDonationPaymentProviderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DonationPaymentProvider[]'>
     
 
 

@@ -244,6 +244,22 @@ model Campaign {
   @@map("campaigns")
 }
 
+
+enum DonationPaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum DonationPaymentProvider {
+  MANUAL
+  RAZORPAY
+  STRIPE
+  BANK_TRANSFER
+  UPI
+}
+
 model Donation {
   id String @id @default(uuid())
 
@@ -251,6 +267,10 @@ model Donation {
   currency    String @default("INR")
 
   status DonationStatus @default(INITIATED)
+  paymentStatus   DonationPaymentStatus   @default(PENDING)
+  paymentProvider DonationPaymentProvider @default(MANUAL)
+  adminNotes      String?
+  paidAt          DateTime?
 
   donorName  String
   donorEmail String
@@ -279,6 +299,9 @@ model Donation {
   @@index([userId])
   @@index([donorEmail])
   @@map("donations")
+  @@index([paymentStatus])
+  @@index([receiptNumber])
+
 }
 
 model PaymentTransaction {

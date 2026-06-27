@@ -12,11 +12,6 @@ const donationReviewSchema = z.object({
   adminNotes: z.string().optional()
 });
 
-function sanitizeNote(value: string | undefined): string | undefined {
-  const clean = (value ?? "").replace(/[\u0000-\u001F\u007F]/g, "").trim();
-  return clean.length > 0 ? clean : undefined;
-}
-
 export async function reviewDonationAction(formData: FormData) {
   const session = await requireRole(["ADMIN"]);
 
@@ -41,11 +36,9 @@ export async function reviewDonationAction(formData: FormData) {
     redirect("/admin/donations?error=Donation%20record%20not%20found");
   }
 
-  if (donation.status === "SUCCESS") {
-    redirect(`/admin/donations/${donation.id}?error=Donation%20already%20verified`);
+  if (donation.status !== "PENDING") {
+    redirect(`/admin/donations/${donation.id}?error=Donation%20already%20reviewed`);
   }
-
-  const adminNotes = sanitizeNote(parsed.data.adminNotes);
 
   if (parsed.data.action === "MARK_FAILED") {
     await prisma.$transaction(async (tx) => {
@@ -54,9 +47,7 @@ export async function reviewDonationAction(formData: FormData) {
           id: donation.id
         },
         data: {
-          status: "FAILED",
-          paymentStatus: "FAILED",
-          adminNotes
+          status: "FAILED"
         }
       });
 
@@ -67,13 +58,11 @@ export async function reviewDonationAction(formData: FormData) {
           entity: "Donation",
           entityId: updated.id,
           oldValue: {
-            status: donation.status,
-            paymentStatus: donation.paymentStatus
+            status: donation.status
           },
           newValue: {
             status: updated.status,
-            paymentStatus: updated.paymentStatus,
-            adminNotes
+            adminNotes: parsed.data.adminNotes ?? null
           }
         }
       });
@@ -91,10 +80,7 @@ export async function reviewDonationAction(formData: FormData) {
         id: donation.id
       },
       data: {
-        status: "SUCCESS",
-        paymentStatus: "SUCCESS",
-        paidAt: new Date(),
-        adminNotes
+        status: "SUCCESS"
       }
     });
 
@@ -116,14 +102,13 @@ export async function reviewDonationAction(formData: FormData) {
         entity: "Donation",
         entityId: updated.id,
         oldValue: {
-          status: donation.status,
-          paymentStatus: donation.paymentStatus
+          status: donation.status
         },
         newValue: {
           status: updated.status,
-          paymentStatus: updated.paymentStatus,
           amountPaise: updated.amountPaise,
-          receiptNumber: updated.receiptNumber
+          receiptNumber: updated.receiptNumber,
+          adminNotes: parsed.data.adminNotes ?? null
         }
       }
     });
@@ -135,7 +120,10 @@ export async function reviewDonationAction(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/donations");
   revalidatePath(`/admin/donations/${donation.id}`);
-  revalidatePath(`/receipts/${donation.receiptNumber}`);
+
+  if (donation.receiptNumber) {
+    revalidatePath(`/receipts/${donation.receiptNumber}`);
+  }
 
   redirect(`/admin/donations/${donation.id}`);
 }

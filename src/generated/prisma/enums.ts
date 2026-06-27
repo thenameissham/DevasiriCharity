@@ -169,6 +169,27 @@ export const AuditAction = {
 export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
 
 
+export const DonationPaymentStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+} as const
+
+export type DonationPaymentStatus = (typeof DonationPaymentStatus)[keyof typeof DonationPaymentStatus]
+
+
+export const DonationPaymentProvider = {
+  MANUAL: 'MANUAL',
+  RAZORPAY: 'RAZORPAY',
+  STRIPE: 'STRIPE',
+  BANK_TRANSFER: 'BANK_TRANSFER',
+  UPI: 'UPI'
+} as const
+
+export type DonationPaymentProvider = (typeof DonationPaymentProvider)[keyof typeof DonationPaymentProvider]
+
+
 export const StudentApplicationStatus = {
   SUBMITTED: 'SUBMITTED',
   UNDER_REVIEW: 'UNDER_REVIEW',
