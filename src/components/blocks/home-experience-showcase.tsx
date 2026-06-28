@@ -16,27 +16,27 @@ import { RevealText } from "@/components/motion/reveal-text";
 
 const journey = [
   {
-    title: "Students enter gently",
+    title: "Students feel guided",
     description:
-      "A guided scholarship path reduces fear and helps students explain their need clearly.",
+      "The support journey starts with clarity instead of confusion, helping students explain their need with confidence.",
     icon: GraduationCap
   },
   {
-    title: "Records become verifiable",
+    title: "Records become trustworthy",
     description:
-      "The team can review identity, education, support need, and campaign readiness without chaos.",
+      "Identity, education, need, and verification details stay organized for review without breaking existing workflows.",
     icon: FileSearch
   },
   {
-    title: "Donors see purpose",
+    title: "Donors see real purpose",
     description:
-      "Support campaigns feel human, structured, and trustworthy instead of random donation boxes.",
+      "Campaigns communicate verified education needs with progress, story, and accountability.",
     icon: HeartHandshake
   },
   {
-    title: "Impact stays visible",
+    title: "Impact remains visible",
     description:
-      "Donation records, progress, receipts, and outcomes remain connected to the support journey.",
+      "Support records, receipts, progress, and outcomes stay connected to one transparent platform.",
     icon: BarChart3
   }
 ] as const;
@@ -51,12 +51,12 @@ export function HomeExperienceShowcase() {
 
       <div
         aria-hidden="true"
-        className="absolute left-[-220px] top-24 h-[620px] w-[620px] rounded-full bg-blue-300/18 blur-[110px]"
+        className="absolute left-[-220px] top-24 h-[620px] w-[620px] rounded-full bg-blue-300/16 blur-[110px]"
       />
 
       <div
         aria-hidden="true"
-        className="absolute right-[-220px] bottom-24 h-[620px] w-[620px] rounded-full bg-cyan-300/18 blur-[110px]"
+        className="absolute right-[-220px] bottom-24 h-[620px] w-[620px] rounded-full bg-cyan-300/16 blur-[110px]"
       />
 
       <MotionSection className="relative mx-auto max-w-7xl">
@@ -69,19 +69,19 @@ export function HomeExperienceShowcase() {
 
             <RevealText
               as="h2"
-              text="A trust-first operating system for education support."
+              text="A calm operating system for education support."
               className="mt-5 max-w-4xl text-4xl font-black leading-[0.96] tracking-[-0.08em] text-slate-950 sm:text-5xl lg:text-7xl"
             />
           </div>
 
           <p className="max-w-2xl text-base leading-8 text-slate-600">
-            Devasiri should feel bigger than a website. It should feel like a
-            calm, premium support engine where every role understands what to do
-            next.
+            Devasiri should feel like a complete support engine, not a donation
+            page. Every role gets a clear path while the experience stays warm,
+            premium, and trustworthy.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="mt-12 grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
           <div className="grid gap-5 sm:grid-cols-2">
             {journey.map((item, index) => {
               const Icon = item.icon;
@@ -89,7 +89,7 @@ export function HomeExperienceShowcase() {
               return (
                 <AnimatedGlassCard
                   key={item.title}
-                  className="min-h-[270px] rounded-[36px] p-6"
+                  className="min-h-[280px] rounded-[36px] p-6"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex h-14 w-14 items-center justify-center rounded-[22px] bg-blue-600 text-white shadow-[0_18px_45px_rgba(37,99,235,0.24)]">
@@ -113,7 +113,7 @@ export function HomeExperienceShowcase() {
             })}
           </div>
 
-          <div className="relative overflow-hidden rounded-[44px] border border-white/80 bg-slate-950 p-7 text-white shadow-[0_40px_130px_rgba(15,23,42,0.25)]">
+          <div className="relative overflow-hidden rounded-[44px] border border-white/80 bg-slate-950 p-7 text-white shadow-[0_40px_130px_rgba(15,23,42,0.24)]">
             <div
               aria-hidden="true"
               className="absolute -right-28 -top-28 h-80 w-80 rounded-full bg-blue-500/30 blur-3xl"
@@ -135,17 +135,16 @@ export function HomeExperienceShowcase() {
               </h3>
 
               <p className="mt-5 text-sm leading-7 text-white/68">
-                This experience uses visual depth, calm movement, clear role
-                pathways, and emotional warmth without touching core backend
-                functionality.
+                Motion is used only where it supports clarity: guided entry,
+                role pathways, card reveal, and meaningful state transitions.
               </p>
 
               <div className="mt-8 grid gap-3">
                 {[
                   "Student journey feels guided, not transactional",
                   "Donor flow feels transparent and accountable",
-                  "Admin workflow stays trustworthy and structured",
-                  "Motion supports clarity instead of distracting users"
+                  "Admin workflow remains structured and trustworthy",
+                  "Motion supports clarity instead of clutter"
                 ].map((item) => (
                   <div
                     key={item}
