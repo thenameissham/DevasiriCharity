@@ -18,7 +18,7 @@ export function HeroVideoBackground({
     >
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(180deg,#fffaf2_0%,#f7fbf8_42%,#eaf7f4_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,var(--theme-surface)_0%,#f7fbf8_42%,#eaf7f4_100%)]"
       />
 
       <div
@@ -48,7 +48,7 @@ export function HeroVideoBackground({
 
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[#fffaf2]/95 to-transparent"
+        className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-[var(--theme-surface)]/95 to-transparent"
       />
 
       <div

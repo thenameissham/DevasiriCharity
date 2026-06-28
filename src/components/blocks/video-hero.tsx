@@ -50,7 +50,7 @@ export function VideoHero() {
 
       <MotionSection className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="relative z-20 max-w-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#d8eee7] bg-white/76 px-4 py-2 text-sm font-black text-[#0f766e] shadow-sm backdrop-blur-2xl">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--theme-border)] bg-white/76 px-4 py-2 text-sm font-black text-[var(--theme-primary)] shadow-sm backdrop-blur-2xl">
             <Sparkles className="h-4 w-4" />
             Devasiri Charitable Trust
           </div>
@@ -58,7 +58,7 @@ export function VideoHero() {
           <RevealText
             as="h1"
             text="A warmer, smarter way to keep education moving."
-            className="mt-6 text-5xl font-black leading-[0.92] tracking-[-0.09em] text-[#07111f] sm:text-6xl lg:text-[5.8rem]"
+            className="mt-6 text-5xl font-black leading-[0.92] tracking-[-0.09em] text-[var(--theme-ink)] sm:text-6xl lg:text-[5.8rem]"
           />
 
           <p className="mt-7 max-w-xl text-base leading-8 text-[#475569] sm:text-lg">
@@ -71,7 +71,7 @@ export function VideoHero() {
             <SharedAuthTrigger
               intent="branch"
               ariaLabel="Open Devasiri guided start"
-              className="h-14 rounded-[22px] bg-[#0f766e] px-8 text-base shadow-[0_20px_55px_rgba(15,118,110,0.26)] hover:bg-[#0b5f59] devasiri-shine"
+              className="h-14 rounded-[22px] bg-[var(--theme-primary)] px-8 text-base shadow-[0_20px_55px_rgba(15,118,110,0.26)] hover:bg-[var(--theme-primary-dark)] devasiri-shine"
             >
               Get Started
               <ArrowRight className="h-5 w-5" />
@@ -81,10 +81,10 @@ export function VideoHero() {
               href="/campaigns"
               variant="secondary"
               size="lg"
-              className="h-14 rounded-[22px] border-[#e5dcc8] bg-white/76 px-8 text-base text-[#07111f] shadow-[0_18px_55px_rgba(7,17,31,0.09)] backdrop-blur-2xl"
+              className="h-14 rounded-[22px] border-[var(--theme-border)] bg-white/76 px-8 text-base text-[var(--theme-ink)] shadow-[0_18px_55px_rgba(7,17,31,0.09)] backdrop-blur-2xl"
             >
               View Campaigns
-              <HeartHandshake className="h-5 w-5 text-[#b7791f]" />
+              <HeartHandshake className="h-5 w-5 text-[var(--theme-accent)]" />
             </Button>
           </div>
 
@@ -95,7 +95,7 @@ export function VideoHero() {
                 className="rounded-[20px] border border-white/70 bg-white/66 px-4 py-3 shadow-[0_16px_45px_rgba(7,17,31,0.06)] backdrop-blur-2xl"
               >
                 <div className="flex items-start gap-2 text-sm font-black leading-5 text-[#1f2937]">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[#0f766e]" />
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--theme-primary)]" />
                   {item}
                 </div>
               </div>
@@ -130,11 +130,11 @@ export function VideoHero() {
                   key={item.label}
                   className="rounded-[28px] p-5"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[#0f766e] text-white shadow-[0_16px_40px_rgba(15,118,110,0.22)]">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[var(--theme-primary)] text-white shadow-[0_16px_40px_rgba(15,118,110,0.22)]">
                     <Icon className="h-5 w-5" />
                   </div>
 
-                  <p className="mt-4 text-2xl font-black tracking-[-0.055em] text-[#07111f]">
+                  <p className="mt-4 text-2xl font-black tracking-[-0.055em] text-[var(--theme-ink)]">
                     {item.label}
                   </p>
 
@@ -149,12 +149,12 @@ export function VideoHero() {
           <div className="relative z-20 mt-4 grid gap-3 sm:grid-cols-2">
             <div className="rounded-[26px] border border-white/70 bg-white/74 px-5 py-4 shadow-[0_18px_55px_rgba(7,17,31,0.08)] backdrop-blur-2xl">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-[17px] bg-[#e6f6f2] text-[#0f766e]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-[17px] bg-[var(--theme-soft)] text-[var(--theme-primary)]">
                   <ShieldCheck className="h-5 w-5" />
                 </div>
 
                 <div>
-                  <p className="text-sm font-black text-[#07111f]">
+                  <p className="text-sm font-black text-[var(--theme-ink)]">
                     Verified support journey
                   </p>
                   <p className="text-xs font-semibold text-[#64748b]">
@@ -166,12 +166,12 @@ export function VideoHero() {
 
             <div className="rounded-[26px] border border-white/70 bg-white/74 px-5 py-4 shadow-[0_18px_55px_rgba(7,17,31,0.08)] backdrop-blur-2xl">
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-[17px] bg-[#fff4d6] text-[#b7791f]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-[17px] bg-[var(--theme-accent-soft)] text-[var(--theme-accent)]">
                   <UsersRound className="h-5 w-5" />
                 </div>
 
                 <div>
-                  <p className="text-sm font-black text-[#07111f]">
+                  <p className="text-sm font-black text-[var(--theme-ink)]">
                     Human-centered platform
                   </p>
                   <p className="text-xs font-semibold text-[#64748b]">

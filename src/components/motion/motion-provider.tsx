@@ -23,6 +23,8 @@ import {
   X
 } from "lucide-react";
 import { ReduceMotionToggle } from "@/components/motion/reduce-motion-toggle";
+import { DevasiriThemeProvider } from "@/components/theme/devasiri-theme-provider";
+import { DevasiriThemeSwitcher } from "@/components/theme/devasiri-theme-switcher";
 import { ExperienceCommandCenter } from "@/components/experience/experience-command-center";
 import { ApplicationJourneyAssistant } from "@/components/blocks/application-journey-assistant";
 import { cn } from "@/lib/cn";
@@ -560,16 +562,19 @@ export function MotionProvider({ children }: { readonly children: ReactNode }) {
 
   return (
     <MotionExperienceContext.Provider value={value}>
+      <DevasiriThemeProvider>
       {children}
       <ApplicationJourneyAssistant />
       <ExperienceCommandCenter />
       <ReduceMotionToggle />
+      <DevasiriThemeSwitcher />
       <PremiumAuthOverlay
         isOpen={isAuthOpen}
         initialIntent={authIntent}
         reducedMotion={reducedMotion}
         onClose={closeAuthOverlay}
       />
+      </DevasiriThemeProvider>
     </MotionExperienceContext.Provider>
   );
 }
