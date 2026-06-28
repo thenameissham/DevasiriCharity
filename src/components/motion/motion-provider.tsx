@@ -23,6 +23,7 @@ import {
   X
 } from "lucide-react";
 import { ReduceMotionToggle } from "@/components/motion/reduce-motion-toggle";
+import { ExperienceCommandCenter } from "@/components/experience/experience-command-center";
 import { ApplicationJourneyAssistant } from "@/components/blocks/application-journey-assistant";
 import { cn } from "@/lib/cn";
 
@@ -561,6 +562,7 @@ export function MotionProvider({ children }: { readonly children: ReactNode }) {
     <MotionExperienceContext.Provider value={value}>
       {children}
       <ApplicationJourneyAssistant />
+      <ExperienceCommandCenter />
       <ReduceMotionToggle />
       <PremiumAuthOverlay
         isOpen={isAuthOpen}
