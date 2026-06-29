@@ -1,10 +1,8 @@
-import { PageWrapper } from "@/components/layouts/page-wrapper";
 import { HomePageSections } from "@/components/sections/home-page-sections";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default function HomePage() {
-  return (
-    <PageWrapper>
-      <HomePageSections />
-    </PageWrapper>
-  );
+  return <HomePageSections />;
 }

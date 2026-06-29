@@ -648,3 +648,87 @@ a {
   --theme-border: #fecdd3;
   --theme-ring: #fed7aa;
 }
+
+/* Devasiri interaction engine */
+::selection {
+  background: color-mix(in srgb, var(--theme-primary) 24%, white);
+  color: var(--theme-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--theme-surface);
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Devasiri interaction engine */
+::selection {
+  background: color-mix(in srgb, var(--theme-primary) 24%, white);
+  color: var(--theme-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--theme-surface);
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Devasiri interaction engine */
+::selection {
+  background: color-mix(in srgb, var(--theme-primary) 24%, white);
+  color: var(--theme-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--theme-surface);
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

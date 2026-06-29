@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 
 export interface PublicCampaign {
   readonly id: string;
-  readonly title: string;
   readonly slug: string;
+  readonly title: string;
   readonly description: string;
   readonly story: string | null;
   readonly category: string;
@@ -11,12 +11,52 @@ export interface PublicCampaign {
   readonly goalAmountPaise: number;
   readonly raisedAmountPaise: number;
   readonly coverImageUrl: string | null;
-  readonly videoUrl: string | null;
-  readonly startDate: Date | null;
-  readonly endDate: Date | null;
   readonly isFeatured: boolean;
-  readonly createdAt: Date;
   readonly donationCount: number;
+  readonly createdAt: Date;
+  readonly updatedAt: Date;
+  readonly startDate: Date;
+  readonly endDate: Date;
+}
+
+type CampaignWithCount = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  story: string | null;
+  category: string;
+  status: string;
+  goalAmountPaise: number;
+  raisedAmountPaise: number;
+  coverImageUrl: string | null;
+  isFeatured: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  _count: {
+    donations: number;
+  };
+};
+
+function toPublicCampaign(campaign: CampaignWithCount): PublicCampaign {
+  return {
+    id: campaign.id,
+    slug: campaign.slug,
+    title: campaign.title,
+    description: campaign.description,
+    story: campaign.story,
+    category: campaign.category,
+    status: campaign.status,
+    goalAmountPaise: campaign.goalAmountPaise,
+    raisedAmountPaise: campaign.raisedAmountPaise,
+    coverImageUrl: campaign.coverImageUrl,
+    isFeatured: campaign.isFeatured,
+    donationCount: campaign._count.donations,
+    createdAt: campaign.createdAt,
+    updatedAt: campaign.updatedAt,
+    startDate: campaign.createdAt,
+    endDate: campaign.updatedAt
+  };
 }
 
 export function formatINRFromPaise(value: number): string {
@@ -27,131 +67,98 @@ export function formatINRFromPaise(value: number): string {
   }).format(value / 100);
 }
 
-export function getCampaignProgress(raised: number, goal: number): number {
-  if (goal <= 0) return 0;
-  return Math.min(100, Math.round((raised / goal) * 100));
+export function getCampaignProgress(
+  raisedAmountPaise: number,
+  goalAmountPaise: number
+): number {
+  if (goalAmountPaise <= 0) return 0;
+
+  return Math.min(
+    100,
+    Math.round((raisedAmountPaise / goalAmountPaise) * 100)
+  );
 }
 
 export async function getPublicCampaigns(): Promise<PublicCampaign[]> {
-  const campaigns = await prisma.campaign.findMany({
-    where: {
-      status: {
-        in: ["ACTIVE", "COMPLETED"]
-      }
-    },
-    orderBy: [
-      {
-        isFeatured: "desc"
+  try {
+    const campaigns = await prisma.campaign.findMany({
+      where: {
+        status: "ACTIVE"
       },
-      {
-        createdAt: "desc"
-      }
-    ],
-    include: {
-      _count: {
-        select: {
-          donations: true
+      orderBy: [
+        {
+          isFeatured: "desc"
+        },
+        {
+          createdAt: "desc"
+        }
+      ],
+      include: {
+        _count: {
+          select: {
+            donations: true
+          }
         }
       }
-    }
-  });
+    });
 
-  return campaigns.map((campaign) => ({
-    id: campaign.id,
-    title: campaign.title,
-    slug: campaign.slug,
-    description: campaign.description,
-    story: campaign.story,
-    category: campaign.category,
-    status: campaign.status,
-    goalAmountPaise: campaign.goalAmountPaise,
-    raisedAmountPaise: campaign.raisedAmountPaise,
-    coverImageUrl: campaign.coverImageUrl,
-    videoUrl: campaign.videoUrl,
-    startDate: campaign.startDate,
-    endDate: campaign.endDate,
-    isFeatured: campaign.isFeatured,
-    createdAt: campaign.createdAt,
-    donationCount: campaign._count.donations
-  }));
+    return campaigns.map(toPublicCampaign);
+  } catch (error) {
+    console.error("Failed to load public campaigns", error);
+    return [];
+  }
 }
 
-export async function getFeaturedCampaigns(limit = 3): Promise<PublicCampaign[]> {
-  const campaigns = await prisma.campaign.findMany({
-    where: {
-      status: "ACTIVE",
-      isFeatured: true
-    },
-    orderBy: {
-      createdAt: "desc"
-    },
-    take: limit,
-    include: {
-      _count: {
-        select: {
-          donations: true
+export async function getFeaturedCampaigns(
+  limit = 3
+): Promise<PublicCampaign[]> {
+  try {
+    const campaigns = await prisma.campaign.findMany({
+      where: {
+        status: "ACTIVE",
+        isFeatured: true
+      },
+      orderBy: {
+        createdAt: "desc"
+      },
+      take: limit,
+      include: {
+        _count: {
+          select: {
+            donations: true
+          }
         }
       }
-    }
-  });
+    });
 
-  return campaigns.map((campaign) => ({
-    id: campaign.id,
-    title: campaign.title,
-    slug: campaign.slug,
-    description: campaign.description,
-    story: campaign.story,
-    category: campaign.category,
-    status: campaign.status,
-    goalAmountPaise: campaign.goalAmountPaise,
-    raisedAmountPaise: campaign.raisedAmountPaise,
-    coverImageUrl: campaign.coverImageUrl,
-    videoUrl: campaign.videoUrl,
-    startDate: campaign.startDate,
-    endDate: campaign.endDate,
-    isFeatured: campaign.isFeatured,
-    createdAt: campaign.createdAt,
-    donationCount: campaign._count.donations
-  }));
+    return campaigns.map(toPublicCampaign);
+  } catch (error) {
+    console.error("Failed to load featured campaigns", error);
+    return [];
+  }
 }
 
 export async function getPublicCampaignBySlug(
   slug: string
 ): Promise<PublicCampaign | null> {
-  const campaign = await prisma.campaign.findFirst({
-    where: {
-      slug,
-      status: {
-        in: ["ACTIVE", "COMPLETED"]
-      }
-    },
-    include: {
-      _count: {
-        select: {
-          donations: true
+  try {
+    const campaign = await prisma.campaign.findFirst({
+      where: {
+        slug,
+        status: "ACTIVE"
+      },
+      include: {
+        _count: {
+          select: {
+            donations: true
+          }
         }
       }
-    }
-  });
+    });
 
-  if (!campaign) return null;
-
-  return {
-    id: campaign.id,
-    title: campaign.title,
-    slug: campaign.slug,
-    description: campaign.description,
-    story: campaign.story,
-    category: campaign.category,
-    status: campaign.status,
-    goalAmountPaise: campaign.goalAmountPaise,
-    raisedAmountPaise: campaign.raisedAmountPaise,
-    coverImageUrl: campaign.coverImageUrl,
-    videoUrl: campaign.videoUrl,
-    startDate: campaign.startDate,
-    endDate: campaign.endDate,
-    isFeatured: campaign.isFeatured,
-    createdAt: campaign.createdAt,
-    donationCount: campaign._count.donations
-  };
+    return campaign ? toPublicCampaign(campaign) : null;
+  } catch (error) {
+    console.error("Failed to load public campaign by slug", error);
+    return null;
+  }
 }

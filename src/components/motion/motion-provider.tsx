@@ -15,6 +15,7 @@ import {
 } from "@/components/auth/premium-access-overlay";
 import { ApplicationJourneyAssistant } from "@/components/blocks/application-journey-assistant";
 import { ExperienceCommandCenter } from "@/components/experience/experience-command-center";
+import { AdaptiveExperienceOrchestrator } from "@/components/experience/adaptive-experience-orchestrator";
 import { ReduceMotionToggle } from "@/components/motion/reduce-motion-toggle";
 import { DevasiriThemeProvider } from "@/components/theme/devasiri-theme-provider";
 import { DevasiriThemeSwitcher } from "@/components/theme/devasiri-theme-switcher";
@@ -94,6 +95,7 @@ export function MotionProvider({ children }: { readonly children: ReactNode }) {
     <MotionExperienceContext.Provider value={value}>
       <DevasiriThemeProvider>
         {children}
+        <AdaptiveExperienceOrchestrator />
         <ApplicationJourneyAssistant />
         <ExperienceCommandCenter />
         <DevasiriThemeSwitcher />

@@ -57,3 +57,5 @@ coverage
 dist
 
 .sentryclirc
+logs/
+build-error.log

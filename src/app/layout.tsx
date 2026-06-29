@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { MotionProvider } from "@/components/motion/motion-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -30,7 +31,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body><MotionProvider>{children}</MotionProvider></body>
     </html>
   );
 }
