@@ -16,6 +16,7 @@ import {
 import { ApplicationJourneyAssistant } from "@/components/blocks/application-journey-assistant";
 import { ExperienceCommandCenter } from "@/components/experience/experience-command-center";
 import { AdaptiveExperienceOrchestrator } from "@/components/experience/adaptive-experience-orchestrator";
+import { CinematicJourneyNavigator } from "@/components/experience/cinematic-journey-navigator";
 import { ReduceMotionToggle } from "@/components/motion/reduce-motion-toggle";
 import { DevasiriThemeProvider } from "@/components/theme/devasiri-theme-provider";
 import { DevasiriThemeSwitcher } from "@/components/theme/devasiri-theme-switcher";
@@ -96,6 +97,7 @@ export function MotionProvider({ children }: { readonly children: ReactNode }) {
       <DevasiriThemeProvider>
         {children}
         <AdaptiveExperienceOrchestrator />
+        <CinematicJourneyNavigator />
         <ApplicationJourneyAssistant />
         <ExperienceCommandCenter />
         <DevasiriThemeSwitcher />
