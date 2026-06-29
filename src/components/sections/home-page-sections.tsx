@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { SectionShell } from "@/components/ui/section-shell";
 import { getFeaturedCampaigns } from "@/features/campaigns/campaign.queries";
 import { MissionFlowTheater } from "@/components/blocks/mission-flow-theater";
+import { ImpactObservatory } from "@/components/blocks/impact-observatory";
 
 export async function HomePageSections() {
   const campaigns = await getFeaturedCampaigns(3);
@@ -30,6 +31,7 @@ export async function HomePageSections() {
       <PremiumActionDock />
       <HomeExperienceShowcase />
       <MissionFlowTheater />
+      <ImpactObservatory />
       <LiveTicker />
       <ScholarshipEntry />
       <SuccessMetrics />
