@@ -18,6 +18,7 @@ import { PublicCampaignCard } from "@/components/campaigns/public-campaign-card"
 import { Button } from "@/components/ui/button";
 import { SectionShell } from "@/components/ui/section-shell";
 import { getFeaturedCampaigns } from "@/features/campaigns/campaign.queries";
+import { MissionFlowTheater } from "@/components/blocks/mission-flow-theater";
 
 export async function HomePageSections() {
   const campaigns = await getFeaturedCampaigns(3);
@@ -28,6 +29,7 @@ export async function HomePageSections() {
       <VideoHero />
       <PremiumActionDock />
       <HomeExperienceShowcase />
+      <MissionFlowTheater />
       <LiveTicker />
       <ScholarshipEntry />
       <SuccessMetrics />
