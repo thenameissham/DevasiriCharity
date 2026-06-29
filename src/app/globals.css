@@ -732,3 +732,20 @@ select {
     scroll-behavior: auto;
   }
 }
+
+/* Devasiri application focus mode */
+:root[data-devasiri-application-focus="true"] input,
+:root[data-devasiri-application-focus="true"] textarea,
+:root[data-devasiri-application-focus="true"] select {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--theme-primary) 35%, transparent),
+    0 18px 45px rgba(7, 17, 31, 0.08);
+}
+
+:root[data-devasiri-application-focus="true"] input:focus,
+:root[data-devasiri-application-focus="true"] textarea:focus,
+:root[data-devasiri-application-focus="true"] select:focus {
+  box-shadow:
+    0 0 0 4px var(--theme-ring),
+    0 22px 60px rgba(7, 17, 31, 0.12);
+}
