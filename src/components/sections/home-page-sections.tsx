@@ -22,6 +22,7 @@ import { MissionFlowTheater } from "@/components/blocks/mission-flow-theater";
 import { ImpactObservatory } from "@/components/blocks/impact-observatory";
 import { TrustStackTheater } from "@/components/blocks/trust-stack-theater";
 import { VolunteerSupportCommand } from "@/components/blocks/volunteer-support-command";
+import { TransparencyLedgerTheater } from "@/components/blocks/transparency-ledger-theater";
 
 export async function HomePageSections() {
   const campaigns = await getFeaturedCampaigns(3);
@@ -36,6 +37,7 @@ export async function HomePageSections() {
       <ImpactObservatory />
       <TrustStackTheater />
       <VolunteerSupportCommand />
+      <TransparencyLedgerTheater />
       <LiveTicker />
       <ScholarshipEntry />
       <SuccessMetrics />
