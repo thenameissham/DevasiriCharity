@@ -20,6 +20,7 @@ import { SectionShell } from "@/components/ui/section-shell";
 import { getFeaturedCampaigns } from "@/features/campaigns/campaign.queries";
 import { MissionFlowTheater } from "@/components/blocks/mission-flow-theater";
 import { ImpactObservatory } from "@/components/blocks/impact-observatory";
+import { TrustStackTheater } from "@/components/blocks/trust-stack-theater";
 
 export async function HomePageSections() {
   const campaigns = await getFeaturedCampaigns(3);
@@ -32,6 +33,7 @@ export async function HomePageSections() {
       <HomeExperienceShowcase />
       <MissionFlowTheater />
       <ImpactObservatory />
+      <TrustStackTheater />
       <LiveTicker />
       <ScholarshipEntry />
       <SuccessMetrics />
