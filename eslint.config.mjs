@@ -10,7 +10,12 @@ const eslintConfig = [
       "node_modules/**",
       "dist/**",
       "coverage/**",
-      "src/generated/prisma/**"
+      "src/generated/prisma/**",
+      ".swc/**",
+      ".turbo/**",
+      "out/**",
+      ".vercel/**",
+      ".devasiri-backups/**"
     ]
   }
 ];

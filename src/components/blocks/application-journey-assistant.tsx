@@ -51,6 +51,7 @@ const applicationSteps = [
   }
 ] as const;
 
+
 function getCurrentStepFromPath(pathname: string): string {
   if (pathname.includes("/success")) return "submitted";
   if (pathname.includes("/start")) return "education";

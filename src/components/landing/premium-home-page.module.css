@@ -1,0 +1,279 @@
+.hero {
+  background:
+    radial-gradient(
+      circle at 10% 12%,
+      rgba(16, 185, 129, 0.16),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 15%,
+      rgba(245, 158, 11, 0.14),
+      transparent 27%
+    ),
+    linear-gradient(
+      180deg,
+      #fffef9 0%,
+      #f7faf7 58%,
+      #eef7f2 100%
+    );
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.45;
+  background-image:
+    linear-gradient(
+      rgba(15, 118, 110, 0.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(15, 118, 110, 0.06) 1px,
+      transparent 1px
+    );
+  background-size: 64px 64px;
+  mask-image: radial-gradient(
+    circle at 50% 42%,
+    #000 0%,
+    transparent 74%
+  );
+}
+
+.orbA,
+.orbB {
+  position: absolute;
+  width: min(72vw, 920px);
+  aspect-ratio: 1;
+  border-radius: 999px;
+  filter: blur(95px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.orbA {
+  left: -30%;
+  top: -40%;
+  background: rgba(52, 211, 153, 0.22);
+  animation: driftA 18s ease-in-out infinite alternate;
+}
+
+.orbB {
+  right: -34%;
+  top: -25%;
+  background: rgba(251, 191, 36, 0.2);
+  animation: driftB 21s ease-in-out infinite alternate;
+}
+
+.ribbon {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: min(1100px, 92vw);
+  height: 300px;
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    rgba(16, 185, 129, 0.07),
+    rgba(245, 158, 11, 0.07),
+    transparent
+  );
+  filter: blur(1px);
+  transform: translate(-50%, -50%) rotate(-8deg);
+  animation: breathe 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.reveal {
+  animation: reveal 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.revealDelayed {
+  animation:
+    reveal 900ms 140ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.floatCard {
+  animation: float 7s ease-in-out infinite;
+}
+
+.programCard {
+  animation:
+    reveal 700ms
+    cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    transform 350ms ease,
+    box-shadow 350ms ease,
+    border-color 350ms ease;
+}
+
+.programCard:hover {
+  transform: translateY(-8px);
+  border-color: rgba(5, 150, 105, 0.22);
+  box-shadow: 0 34px 110px rgba(15, 23, 42, 0.13);
+}
+
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine::after {
+  position: absolute;
+  inset: -70% auto -70% -45%;
+  width: 34%;
+  content: "";
+  transform: rotate(18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.58),
+    transparent
+  );
+  animation: shine 4.8s ease-in-out infinite;
+}
+
+.darkGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 12% 20%,
+      rgba(16, 185, 129, 0.19),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 86% 78%,
+      rgba(245, 158, 11, 0.12),
+      transparent 27%
+    );
+}
+
+.ctaGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 86% 12%,
+      rgba(255, 255, 255, 0.22),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 12% 100%,
+      rgba(251, 191, 36, 0.18),
+      transparent 30%
+    );
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform:
+      translate3d(0, 0, 0)
+      rotate(-0.3deg);
+  }
+
+  50% {
+    transform:
+      translate3d(0, -14px, 0)
+      rotate(0.3deg);
+  }
+}
+
+@keyframes driftA {
+  from {
+    transform:
+      translate3d(-2%, -2%, 0)
+      scale(0.95);
+  }
+
+  to {
+    transform:
+      translate3d(12%, 10%, 0)
+      scale(1.08);
+  }
+}
+
+@keyframes driftB {
+  from {
+    transform:
+      translate3d(4%, -4%, 0)
+      scale(1);
+  }
+
+  to {
+    transform:
+      translate3d(-11%, 13%, 0)
+      scale(1.12);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform:
+      translate(-50%, -50%)
+      rotate(-8deg)
+      scale(0.96);
+  }
+
+  50% {
+    opacity: 0.92;
+    transform:
+      translate(-50%, -50%)
+      rotate(-5deg)
+      scale(1.04);
+  }
+}
+
+@keyframes shine {
+  0%,
+  58% {
+    left: -45%;
+  }
+
+  82%,
+  100% {
+    left: 130%;
+  }
+}
+
+@media (max-width: 1023px) {
+  .ribbon {
+    top: 36%;
+    height: 230px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbA,
+  .orbB,
+  .ribbon,
+  .reveal,
+  .revealDelayed,
+  .floatCard,
+  .programCard,
+  .shine::after {
+    animation: none !important;
+  }
+}

@@ -1,8 +1,8 @@
-import { HomePageSections } from "@/components/sections/home-page-sections";
+import { PremiumHomePage } from "@/components/landing/premium-home-page";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default function HomePage() {
-  return <HomePageSections />;
+  return <PremiumHomePage />;
 }

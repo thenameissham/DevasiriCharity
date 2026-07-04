@@ -1,201 +1,172 @@
+import Image from "next/image";
+import Link from "next/link";
 import {
-  ArrowUpRight,
-  Globe,
+  ArrowRight,
   HeartHandshake,
   Mail,
   MapPin,
-  Phone
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
+import { BrandBackground } from "@/components/landing/brand-background";
+import { Button } from "@/components/ui/button";
 
 const programLinks = [
-  {
-    label: "Education Assistance",
-    href: "#campaigns"
-  },
-  {
-    label: "Student Sponsorship",
-    href: "#campaigns"
-  },
-  {
-    label: "Hostel Support",
-    href: "#campaigns"
-  },
-  {
-    label: "Volunteer Programs",
-    href: "#volunteer"
-  },
-  {
-    label: "Transparency",
-    href: "#impact"
-  }
+  { label: "Education assistance", href: "/#programs" },
+  { label: "Scholarship support", href: "/apply" },
+  { label: "Hostel continuity", href: "/#programs" },
+  { label: "Volunteer guidance", href: "/volunteer" },
 ] as const;
 
-const trustLinks = [
-  {
-    label: "Impact Stories",
-    href: "#stories"
-  },
-  {
-    label: "Donation Tiers",
-    href: "#donate"
-  },
-  {
-    label: "Live Metrics",
-    href: "#impact"
-  }
-] as const;
-
-const quickActions = [
-  {
-    label: "Visit website",
-    href: "/",
-    icon: Globe
-  },
-  {
-    label: "Email Devasiri",
-    href: "mailto:official@devasiri.org",
-    icon: Mail
-  },
-  {
-    label: "Explore campaigns",
-    href: "#campaigns",
-    icon: ArrowUpRight
-  }
+const platformLinks = [
+  { label: "Verified campaigns", href: "/campaigns" },
+  { label: "Impact dashboard", href: "/#impact" },
+  { label: "Student application", href: "/apply" },
+  { label: "Secure portal", href: "/login" },
 ] as const;
 
 export function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-slate-200 bg-white px-6 py-14 sm:px-8 lg:px-12">
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(circle_at_15%_0%,rgba(37,99,235,0.08),transparent_28%),radial-gradient(circle_at_85%_0%,rgba(6,182,212,0.08),transparent_24%)]"
-      />
+    <footer className="relative overflow-hidden px-5 pb-8 pt-24 text-white sm:px-8 lg:px-12">
+      <BrandBackground tone="dark" />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.35fr_0.8fr_0.75fr_0.9fr]">
-        <div>
-          <a
-            href="/"
-            aria-label="Go to Devasiri home"
-            className="inline-flex items-center gap-3"
-          >
-            <span className="flex h-11 w-11 items-center justify-center rounded-[18px] bg-slate-950 text-white shadow-[0_18px_45px_rgba(15,23,42,0.22)]">
-              <HeartHandshake aria-hidden="true" className="h-5 w-5" />
-            </span>
+      <div className="relative mx-auto max-w-7xl">
+        <div className="overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.06] p-6 shadow-[0_42px_120px_rgba(0,0,0,0.24)] backdrop-blur-2xl sm:p-9 lg:p-11">
+          <div className="grid gap-9 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] px-3.5 py-2 text-xs font-extrabold uppercase tracking-[0.18em] text-[#9ce5d8]">
+                <ShieldCheck className="h-4 w-4 text-[#e4b85e]" />
+                Start with a clear next step
+              </div>
 
-            <span>
-              <span className="block text-2xl font-bold tracking-[-0.055em] text-slate-950">
-                Devasiri
-              </span>
-              <span className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                Charitable Trust
-              </span>
-            </span>
-          </a>
+              <h2 className="font-headline text-balance mt-5 max-w-3xl text-4xl font-extrabold leading-[1.02] tracking-[-0.055em] sm:text-5xl">
+                Help education continue—with dignity, verification, and visible accountability.
+              </h2>
 
-          <p className="mt-5 max-w-md text-sm leading-6 text-slate-600">
-            Helping underprivileged students through education assistance,
-            hostel support, sponsorships, volunteering, and transparent public
-            accountability.
-          </p>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-white/68">
+                Apply for support, explore a verified campaign, or contribute
+                your time as a volunteer. Every journey connects to the same
+                responsible support system.
+              </p>
+            </div>
 
-          <div className="mt-6 flex flex-wrap gap-3">
-            {quickActions.map((item) => {
-              const Icon = item.icon;
+            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+              <Button
+                href="/apply"
+                size="lg"
+                className="group relative h-14 overflow-hidden rounded-full bg-[#e4b85e] px-7 text-[#11282a] hover:bg-[#efc978]"
+              >
+                <span className="absolute -left-10 top-0 h-full w-10 rotate-[16deg] bg-white/25 blur-md transition-all duration-700 group-hover:left-[120%]" />
+                <span className="relative inline-flex items-center gap-2">
+                  Check eligibility
+                  <ArrowRight className="h-5 w-5" />
+                </span>
+              </Button>
 
-              return (
+              <Button
+                href="/campaigns"
+                variant="secondary"
+                size="lg"
+                className="h-14 rounded-full border-white/15 bg-white/10 px-7 text-white hover:bg-white/14"
+              >
+                Explore campaigns
+                <HeartHandshake className="h-5 w-5" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-10 border-t border-white/10 pt-10 lg:grid-cols-[1.25fr_0.75fr_0.75fr_0.9fr]">
+            <div>
+              <Image
+                src="/brand/devasiri-logo.png"
+                alt="Devasiri Charitable Trust"
+                width={220}
+                height={70}
+                className="h-12 w-auto object-contain brightness-[1.22]"
+              />
+
+              <p className="mt-5 max-w-md text-sm leading-7 text-white/62">
+                Devasiri is a charitable technology platform for education
+                assistance, student continuity, volunteering, and transparent
+                operational records.
+              </p>
+
+              <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/6 px-3 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-[#9ce5d8]">
+                <Sparkles className="h-3.5 w-3.5 text-[#e4b85e]" />
+                Education support with accountable action
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-white/48">
+                Programs
+              </p>
+              <div className="mt-5 grid gap-3">
+                {programLinks.map((item) => (
+                  <Link
+                    key={item.href + item.label}
+                    href={item.href}
+                    className="footer-link-underline text-sm font-semibold text-white/70"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-white/48">
+                Platform
+              </p>
+              <div className="mt-5 grid gap-3">
+                {platformLinks.map((item) => (
+                  <Link
+                    key={item.href + item.label}
+                    href={item.href}
+                    className="footer-link-underline text-sm font-semibold text-white/70"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[0.2em] text-white/48">
+                Contact
+              </p>
+
+              <div className="mt-5 grid gap-4 text-sm text-white/70">
+                <div className="flex items-start gap-3">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[#9ce5d8]" />
+                  <span>Gangavathi, Karnataka, India</span>
+                </div>
+
                 <a
-                  key={item.label}
-                  href={item.href}
-                  aria-label={item.label}
-                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:text-blue-600 hover:shadow-md focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-blue-500"
+                  href="mailto:official@devasiri.org"
+                  className="footer-link-underline inline-flex items-center gap-3 text-sm font-semibold text-white/78"
                 >
-                  <Icon
-                    aria-hidden="true"
-                    className="h-4 w-4 transition duration-200 group-hover:scale-110"
-                  />
+                  <Mail className="h-4 w-4 text-[#9ce5d8]" />
+                  official@devasiri.org
                 </a>
-              );
-            })}
+
+                <Link
+                  href="/login"
+                  className="footer-link-underline inline-flex w-fit text-sm font-semibold text-white/78"
+                >
+                  Access secure portal
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm text-white/48 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Devasiri Charitable Trust.</p>
+            <p className="font-semibold text-white/62">
+              Built to support dignity, continuity, and visibility.
+            </p>
           </div>
         </div>
-
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-slate-950">
-            Programs
-          </p>
-
-          <nav aria-label="Footer program links" className="mt-5 grid gap-3">
-            {programLinks.map((link) => (
-              <a
-                href={link.href}
-                key={link.label}
-                className="w-fit text-sm font-medium text-slate-600 transition duration-200 hover:translate-x-0.5 hover:text-blue-600"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-slate-950">
-            Trust
-          </p>
-
-          <nav aria-label="Footer trust links" className="mt-5 grid gap-3">
-            {trustLinks.map((link) => (
-              <a
-                href={link.href}
-                key={link.label}
-                className="w-fit text-sm font-medium text-slate-600 transition duration-200 hover:translate-x-0.5 hover:text-blue-600"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.18em] text-slate-950">
-            Contact
-          </p>
-
-          <address className="mt-5 grid gap-4 text-sm not-italic text-slate-600">
-            <p className="flex gap-3">
-              <MapPin
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-green-600"
-              />
-              <span>Gangavathi, Karnataka, India</span>
-            </p>
-
-            <p className="flex gap-3">
-              <Phone
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-green-600"
-              />
-              <span>Official contact number will be updated soon</span>
-            </p>
-
-            <a
-              href="mailto:official@devasiri.org"
-              className="flex gap-3 transition duration-200 hover:text-green-600"
-            >
-              <Mail
-                aria-hidden="true"
-                className="mt-0.5 h-4 w-4 shrink-0 text-green-600"
-              />
-              <span>official@devasiri.org</span>
-            </a>
-          </address>
-        </div>
-      </div>
-
-      <div className="relative mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-3 border-t border-slate-200 pt-6 text-sm text-slate-500 md:flex-row md:items-center">
-        <p>© {new Date().getFullYear()} Devasiri. All rights reserved.</p>
-        <p className="font-medium text-slate-600">
-          Powered By <span className="font-bold text-muted">Shambhulingappa, Software Engineer.</span>
-        </p>
       </div>
     </footer>
   );
