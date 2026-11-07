@@ -70,8 +70,7 @@ export default async function ReceiptPage({ params }: ReceiptPageProps) {
   const isFailed =
     donation.status === "FAILED" ||
     donation.status === "CANCELLED" ||
-    donation.paymentStatus === "FAILED" ||
-    donation.paymentStatus === "CANCELLED";
+    donation.paymentStatus === "FAILED";
   const statusLabel = isConfirmed
     ? "Confirmed donation record"
     : isRefunded
