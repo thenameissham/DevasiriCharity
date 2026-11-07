@@ -10,11 +10,11 @@ interface DashboardStatCardProps {
 }
 
 const toneStyles = {
-  blue: "bg-blue-50 text-blue-600 ring-blue-100",
-  emerald: "bg-emerald-50 text-emerald-600 ring-emerald-100",
-  amber: "bg-amber-50 text-amber-600 ring-amber-100",
-  rose: "bg-rose-50 text-rose-600 ring-rose-100",
-  slate: "bg-slate-100 text-slate-700 ring-slate-200"
+  blue: "bg-[#ddf4ff] text-[#0969da]",
+  emerald: "bg-[#dafbe1] text-[#1a7f37]",
+  amber: "bg-[#fff8c5] text-[#9a6700]",
+  rose: "bg-[#ffebe9] text-[#cf222e]",
+  slate: "bg-[#f6f8fa] text-[#59636e]",
 } as const;
 
 export function DashboardStatCard({
@@ -22,29 +22,24 @@ export function DashboardStatCard({
   value,
   description,
   icon: Icon,
-  tone = "blue"
+  tone = "blue",
 }: DashboardStatCardProps) {
   return (
-    <article className="rounded-[28px] border border-slate-200 bg-white/80 p-6 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(15,23,42,0.12)]">
-      <div className="flex items-start justify-between gap-5">
-        <div>
-          <p className="text-sm font-bold text-slate-500">{title}</p>
-          <p className="mt-3 text-4xl font-black tracking-[-0.06em] text-slate-950">
+    <article className="min-w-0 rounded-lg border border-[#d1d9e0] bg-white p-5 transition-colors hover:border-[#afb8c1]">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-[#59636e]">{title}</p>
+          <p className="mt-2 break-words text-3xl font-semibold tracking-tight text-[#1f2328]">
             {value}
           </p>
         </div>
-
-        <div
-          className={cn(
-            "flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] ring-1",
-            toneStyles[tone]
-          )}
+        <span
+          className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-md", toneStyles[tone])}
         >
-          <Icon aria-hidden="true" className="h-6 w-6" />
-        </div>
+          <Icon aria-hidden="true" className="h-5 w-5" />
+        </span>
       </div>
-
-      <p className="mt-4 text-sm leading-6 text-slate-600">{description}</p>
+      <p className="mt-3 text-sm leading-5 text-[#59636e]">{description}</p>
     </article>
   );
 }

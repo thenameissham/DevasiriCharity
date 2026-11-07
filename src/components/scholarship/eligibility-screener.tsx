@@ -55,9 +55,9 @@ export function EligibilityScreener() {
   }, [hasAdmission, hasFeeProof, isReady, needsSupport]);
 
   return (
-    <section className="rounded-[36px] border border-slate-200 bg-white/84 p-6 shadow-[0_28px_90px_rgba(15,23,42,0.1)] backdrop-blur-xl">
+    <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
       <div className="flex items-start gap-4">
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-blue-50 text-blue-600">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
           <GraduationCap aria-hidden="true" className="h-6 w-6" />
         </div>
 
@@ -81,7 +81,7 @@ export function EligibilityScreener() {
           <select
             value={course}
             onChange={(event) => setCourse(event.target.value)}
-            className="mt-2 h-12 w-full rounded-[18px] border border-slate-200 bg-white px-4 text-sm font-bold text-slate-950 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-bold text-slate-950 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
           >
             <option value="">Select professional course</option>
             {professionalCourses.map((item) => (
@@ -99,7 +99,7 @@ export function EligibilityScreener() {
           <select
             value={district}
             onChange={(event) => setDistrict(event.target.value)}
-            className="mt-2 h-12 w-full rounded-[18px] border border-slate-200 bg-white px-4 text-sm font-bold text-slate-950 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+            className="mt-2 h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-bold text-slate-950 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
           >
             <option value="">Select district</option>
             {districts.map((item) => (
@@ -135,7 +135,7 @@ export function EligibilityScreener() {
               <select
                 value={field.value}
                 onChange={(event) => field.setValue(event.target.value)}
-                className="mt-2 h-12 w-full rounded-[18px] border border-slate-200 bg-white px-4 text-sm font-bold text-slate-950 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+                className="mt-2 h-12 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm font-bold text-slate-950 shadow-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
               >
                 <option value="">Select</option>
                 <option value="yes">Yes</option>

@@ -80,19 +80,25 @@ export function DevasiriThemeProvider({
 }: {
   readonly children: ReactNode;
 }) {
-  const [theme, setThemeState] = useState<DevasiriTheme>("trust");
+  const [theme, setThemeState] = useState<DevasiriTheme>(() => {
+    if (typeof window === "undefined") return "trust";
+
+    const storedTheme = window.localStorage.getItem("devasiri-theme");
+    return isDevasiriTheme(storedTheme) ? storedTheme : "trust";
+  });
 
   useEffect(() => {
-    const storedTheme = localStorage.getItem("devasiri-theme");
+    document.documentElement.dataset.devasiriTheme = theme;
 
-    if (isDevasiriTheme(storedTheme)) {
-      setThemeState(storedTheme);
-      document.documentElement.dataset.devasiriTheme = storedTheme;
-      return;
+    // Remove only the Stage 12 sentinel. Preserve every valid prior theme value.
+    try {
+      if (window.localStorage.getItem("devasiri-theme") === "monochrome") {
+        window.localStorage.removeItem("devasiri-theme");
+      }
+    } catch {
+      // The restored theme still works when browser storage is unavailable.
     }
-
-    document.documentElement.dataset.devasiriTheme = "trust";
-  }, []);
+  }, [theme]);
 
   function setTheme(nextTheme: DevasiriTheme) {
     setThemeState(nextTheme);

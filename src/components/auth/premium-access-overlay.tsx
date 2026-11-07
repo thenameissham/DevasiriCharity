@@ -1,6 +1,7 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -25,7 +26,6 @@ import {
   useState
 } from "react";
 import { InteractiveConstellationBackground } from "@/components/motion/interactive-constellation-background";
-import { cn } from "@/lib/cn";
 
 export type AuthIntent = "branch" | "login" | "signup";
 
@@ -94,8 +94,10 @@ export function PremiumAccessOverlay({
   reducedMotion,
   onClose
 }: PremiumAccessOverlayProps) {
+  const router = useRouter();
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const firstInputRef = useRef<HTMLInputElement | null>(null);
+  const pendingNavigationRef = useRef<string | null>(null);
 
   const [view, setView] = useState<AuthIntent>(initialIntent);
   const [stepIndex, setStepIndex] = useState(0);
@@ -111,13 +113,37 @@ export function PremiumAccessOverlay({
   );
 
   useEffect(() => {
+    if (isOpen) pendingNavigationRef.current = null;
+  }, [isOpen]);
+
+  function navigateAfterClose(destination: string) {
+    pendingNavigationRef.current = destination;
+    onClose();
+  }
+
+  function handleOverlayExitComplete() {
+    const destination = pendingNavigationRef.current;
+    if (!destination) return;
+
+    pendingNavigationRef.current = null;
+    router.push(destination);
+  }
+
+  useEffect(() => {
     if (!isOpen) return;
 
-    setView(initialIntent);
+    const restoreTimer = window.setTimeout(() => {
+      setView(initialIntent);
 
-    const saved = sessionStorage.getItem(STORAGE_KEY);
+      const saved = sessionStorage.getItem(STORAGE_KEY);
 
-    if (saved) {
+      if (!saved) {
+        setDraft({});
+        setStepIndex(0);
+        setResumed(false);
+        return;
+      }
+
       try {
         const parsed = JSON.parse(saved) as {
           stepIndex?: number;
@@ -134,15 +160,21 @@ export function PremiumAccessOverlay({
         setResumed(true);
       } catch {
         sessionStorage.removeItem(STORAGE_KEY);
+        setDraft({});
+        setStepIndex(0);
+        setResumed(false);
       }
-    }
+    }, 0);
 
     const focusTimer = window.setTimeout(() => {
       dialogRef.current?.focus();
       firstInputRef.current?.focus();
     }, 60);
 
-    return () => window.clearTimeout(focusTimer);
+    return () => {
+      window.clearTimeout(restoreTimer);
+      window.clearTimeout(focusTimer);
+    };
   }, [initialIntent, isOpen]);
 
   useEffect(() => {
@@ -227,7 +259,7 @@ export function PremiumAccessOverlay({
 
     sessionStorage.setItem(PREFILL_KEY, JSON.stringify(draft));
     sessionStorage.removeItem(STORAGE_KEY);
-    window.location.href = "/apply/start";
+    navigateAfterClose("/apply/start");
   }
 
   function goBack() {
@@ -253,10 +285,10 @@ export function PremiumAccessOverlay({
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={handleOverlayExitComplete}>
       {isOpen ? (
         <motion.div
-          className="fixed inset-0 z-[10000] flex items-center justify-center px-4 py-8"
+          className="fixed inset-0 z-[10000] flex items-center justify-center overflow-y-auto overscroll-contain px-3 py-3 sm:px-4 sm:py-4"
           initial={reducedMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={reducedMotion ? undefined : { opacity: 0 }}
@@ -279,7 +311,8 @@ export function PremiumAccessOverlay({
             aria-label="Devasiri guided access"
             tabIndex={-1}
             layoutId="devasiri-shared-auth"
-            className="relative w-full max-w-5xl overflow-hidden rounded-[44px] border border-white/70 bg-white/86 shadow-[0_50px_170px_rgba(7,17,31,0.36)] outline-none backdrop-blur-2xl"
+            className="relative my-auto w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/70 bg-white/86 shadow-[0_50px_170px_rgba(7,17,31,0.36)] outline-none backdrop-blur-2xl sm:rounded-[40px]"
+            style={{ maxHeight: "calc(100dvh - 1.5rem)" }}
             initial={
               reducedMotion
                 ? false
@@ -319,8 +352,14 @@ export function PremiumAccessOverlay({
               className="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[var(--theme-accent)]/18 blur-3xl"
             />
 
-            <div className="relative grid min-h-[620px] lg:grid-cols-[0.88fr_1.12fr]">
-              <aside className="relative hidden overflow-hidden bg-[var(--theme-ink)] p-8 text-white lg:block">
+            <div
+              className="relative grid min-h-0 lg:grid-cols-[0.88fr_1.12fr]"
+              style={{
+                minHeight: "min(560px, calc(100dvh - 1.5rem))",
+                maxHeight: "calc(100dvh - 1.5rem)"
+              }}
+            >
+              <aside className="relative hidden min-h-0 overflow-hidden bg-[var(--theme-ink)] p-7 text-white lg:flex lg:flex-col lg:p-8">
                 <div
                   aria-hidden="true"
                   className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[var(--theme-primary)]/34 blur-3xl"
@@ -331,7 +370,7 @@ export function PremiumAccessOverlay({
                   className="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-[var(--theme-accent)]/22 blur-3xl"
                 />
 
-                <div className="relative flex h-full flex-col justify-between">
+                <div className="relative flex h-full min-h-0 flex-col">
                   <div>
                     <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-black text-white/86 ring-1 ring-white/10">
                       <Sparkles className="h-4 w-4 text-[var(--theme-accent)]" />
@@ -349,27 +388,22 @@ export function PremiumAccessOverlay({
                     </p>
                   </div>
 
-                  <div className="grid gap-3">
-                    {[
-                      "Returning users continue through secure login",
-                      "New students begin with guided support context",
-                      "Progress is saved temporarily in sessionStorage",
-                      "Escape closes and keyboard navigation is supported"
-                    ].map((item) => (
-                      <div
-                        key={item}
-                        className="flex items-center gap-3 rounded-[20px] bg-white/8 px-4 py-3 text-sm font-bold text-white/82 ring-1 ring-white/10"
-                      >
-                        <CheckCircle2 className="h-4 w-4 shrink-0 text-[var(--theme-accent)]" />
-                        {item}
-                      </div>
-                    ))}
+                  <div className="mt-auto flex min-h-0 flex-1 items-end justify-center pt-5">
+                    <Image
+                      src="/illustrations/volunteer-student-support.png"
+                      alt="Students and volunteers working together to support education"
+                      width={724}
+                      height={460}
+                      priority
+                      sizes="(min-width: 1024px) 36vw, 0px"
+                      className="h-auto max-h-[min(19rem,27vh)] w-full object-contain object-bottom drop-shadow-[0_16px_28px_rgba(0,0,0,0.16)]"
+                    />
                   </div>
                 </div>
               </aside>
 
-              <main className="relative p-5 sm:p-7 lg:p-8">
-                <div className="flex items-start justify-between gap-4">
+              <main className="relative min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6 lg:p-8">
+                <div className="sticky top-0 z-30 -mx-4 -mt-4 mb-3 flex items-start justify-between gap-4 bg-white/82 px-4 pb-3 pt-4 backdrop-blur-xl sm:-mx-6 sm:-mt-6 sm:px-6 sm:pt-6 lg:-mx-8 lg:-mt-8 lg:px-8 lg:pt-8">
                   <div className="inline-flex items-center gap-2 rounded-full border border-[var(--theme-border)] bg-[var(--theme-soft)] px-4 py-2 text-sm font-black text-[var(--theme-primary)]">
                     <Sparkles className="h-4 w-4" />
                     Access experience
@@ -385,7 +419,7 @@ export function PremiumAccessOverlay({
                   </button>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-3">
                   <AnimatePresence mode="wait">
                     {view === "branch" ? (
                       <motion.section
@@ -397,11 +431,11 @@ export function PremiumAccessOverlay({
                         }
                       >
                         <h2 className="max-w-2xl text-5xl font-black leading-[0.96] tracking-[-0.08em] text-[var(--theme-ink)] sm:text-6xl">
-                          Welcome. Glad you’re here today.
+                          Welcome to Devasiri.
                         </h2>
 
                         <p className="mt-5 max-w-xl text-base leading-8 text-slate-600">
-                          Are you visiting us again, or is this your first time?
+                          Choose the path that matches your visit.
                         </p>
 
                         <div className="mt-9 grid gap-4 sm:grid-cols-2">
@@ -415,11 +449,11 @@ export function PremiumAccessOverlay({
                             </div>
 
                             <h3 className="mt-6 text-2xl font-black tracking-[-0.06em] text-[var(--theme-ink)]">
-                              I’m visiting again
+                              I already have an account
                             </h3>
 
                             <p className="mt-3 text-sm leading-6 text-slate-600">
-                              Continue through the existing secure login route.
+                              Sign in with your registered email and password.
                             </p>
                           </button>
 
@@ -433,12 +467,11 @@ export function PremiumAccessOverlay({
                             </div>
 
                             <h3 className="mt-6 text-2xl font-black tracking-[-0.06em] text-[var(--theme-ink)]">
-                              This is my first time
+                              I’m new to Devasiri
                             </h3>
 
                             <p className="mt-3 text-sm leading-6 text-slate-600">
-                              Begin with a gentle one-step-at-a-time support
-                              journey.
+                              Register for student support and begin your guided application.
                             </p>
                           </button>
                         </div>
@@ -483,13 +516,14 @@ export function PremiumAccessOverlay({
                           </div>
                         </div>
 
-                        <Link
-                          href="/login"
+                        <button
+                          type="button"
+                          onClick={() => navigateAfterClose("/login")}
                           className="mt-8 inline-flex h-14 w-full items-center justify-center gap-2 rounded-[22px] bg-[var(--theme-primary)] px-6 text-sm font-black text-white shadow-[0_20px_55px_rgba(15,118,110,0.24)] transition hover:bg-[var(--theme-primary-dark)] focus:outline-none focus:ring-4 focus:ring-[var(--theme-ring)]"
                         >
                           Continue to secure login
                           <ArrowRight className="h-5 w-5" />
-                        </Link>
+                        </button>
                       </motion.section>
                     ) : null}
 
@@ -521,27 +555,27 @@ export function PremiumAccessOverlay({
                           </button>
                         </div>
 
-                        <h2 className="mt-6 max-w-2xl text-4xl font-black leading-[0.98] tracking-[-0.08em] text-[var(--theme-ink)] sm:text-5xl">
+                        <h2 className="mt-4 max-w-2xl text-3xl font-black leading-[1.02] tracking-[-0.065em] text-[var(--theme-ink)] sm:text-4xl">
                           {resumed
                             ? "Welcome back, picking up where you left off."
-                            : "Let’s begin gently."}
+                            : "Start your student registration."}
                         </h2>
 
-                        <p className="mt-4 max-w-xl text-base leading-8 text-slate-600">
-                          One input at a time. Press Enter to continue.
+                        <p className="mt-2 max-w-xl text-sm leading-6 text-slate-600 sm:text-base">
+                          Share four details to prepare your education-support application. Press Enter to continue.
                         </p>
 
-                        <div className="mt-7 grid gap-3">
+                        <div className="mt-4 grid gap-2 sm:grid-cols-2">
                           {completedSteps.map((step) => {
                             const Icon = step.icon;
 
                             return (
                               <div
                                 key={step.id}
-                                className="flex items-center justify-between rounded-[20px] border border-emerald-100 bg-emerald-50/70 px-4 py-3"
+                                className="flex min-h-12 items-center justify-between gap-2 rounded-[14px] border border-emerald-100 bg-emerald-50/70 px-3 py-2"
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className="flex h-10 w-10 items-center justify-center rounded-[16px] bg-emerald-500 text-white">
+                                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[12px] bg-emerald-500 text-white">
                                     <Icon className="h-4 w-4" />
                                   </div>
 
@@ -550,22 +584,22 @@ export function PremiumAccessOverlay({
                                       {step.label}
                                     </p>
 
-                                    <p className="mt-1 text-sm font-black text-emerald-950">
+                                    <p className="mt-0.5 max-w-[14rem] truncate text-sm font-semibold text-emerald-950">
                                       {draft[step.id]}
                                     </p>
                                   </div>
                                 </div>
 
-                                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+                                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
                               </div>
                             );
                           })}
                         </div>
 
                         {currentStep ? (
-                          <div className="mt-6 rounded-[30px] border border-slate-200 bg-white/76 p-5 shadow-[0_22px_70px_rgba(7,17,31,0.08)]">
+                          <div className="mt-3 rounded-[22px] border border-slate-200 bg-white/85 p-4 shadow-[0_14px_42px_rgba(7,17,31,0.07)]">
                             <div className="flex items-center gap-3">
-                              <div className="flex h-12 w-12 items-center justify-center rounded-[18px] bg-[var(--theme-primary)] text-white">
+                              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-[var(--theme-primary)] text-white">
                                 <CurrentIcon className="h-5 w-5" />
                               </div>
 
@@ -576,7 +610,7 @@ export function PremiumAccessOverlay({
 
                                 <label
                                   htmlFor={`progressive-${currentStep.id}`}
-                                  className="mt-1 block text-lg font-black tracking-[-0.045em] text-[var(--theme-ink)]"
+                                  className="mt-0.5 block text-base font-bold tracking-[-0.035em] text-[var(--theme-ink)]"
                                 >
                                   {currentStep.label}
                                 </label>
@@ -598,16 +632,16 @@ export function PremiumAccessOverlay({
                                 }
                               }}
                               placeholder={currentStep.placeholder}
-                              className="mt-5 h-15 w-full rounded-[24px] border border-slate-200 bg-white px-5 text-base font-semibold text-[var(--theme-ink)] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[var(--theme-primary)] focus:ring-4 focus:ring-[var(--theme-ring)]"
+                              className="mt-3 h-12 w-full rounded-[15px] border border-slate-200 bg-white px-4 text-base font-semibold text-[var(--theme-ink)] shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[var(--theme-primary)] focus:ring-4 focus:ring-[var(--theme-ring)]"
                             />
                           </div>
                         ) : null}
 
-                        <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                        <div className="sticky bottom-0 z-20 -mx-4 -mb-4 mt-4 flex flex-col gap-2 border-t border-slate-200/70 bg-white/92 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:flex-row sm:px-6 lg:-mx-8 lg:px-8">
                           <button
                             type="button"
                             onClick={goBack}
-                            className="inline-flex h-13 items-center justify-center rounded-[20px] border border-slate-200 bg-white px-5 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-[var(--theme-ring)]"
+                            className="inline-flex h-11 items-center justify-center rounded-[14px] border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-[var(--theme-ring)]"
                           >
                             Back
                           </button>
@@ -615,7 +649,7 @@ export function PremiumAccessOverlay({
                           <button
                             type="button"
                             onClick={goToNextStep}
-                            className="inline-flex h-13 flex-1 items-center justify-center gap-2 rounded-[20px] bg-[var(--theme-primary)] px-5 text-sm font-black text-white shadow-[0_18px_45px_rgba(15,118,110,0.24)] transition hover:bg-[var(--theme-primary-dark)] focus:outline-none focus:ring-4 focus:ring-[var(--theme-ring)]"
+                            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-[14px] bg-[var(--theme-primary)] px-5 text-sm font-bold text-white shadow-[0_14px_35px_rgba(15,118,110,0.2)] transition hover:bg-[var(--theme-primary-dark)] focus:outline-none focus:ring-4 focus:ring-[var(--theme-ring)]"
                           >
                             {stepIndex === onboardingSteps.length - 1
                               ? "Continue to application"
@@ -626,8 +660,9 @@ export function PremiumAccessOverlay({
 
                         <p className="mt-5 text-xs leading-5 text-slate-500">
                           Temporary progress is saved only in this browser tab
-                          session. Final submission still uses the existing
-                          application/backend flow.
+                          session. This guided registration prepares your student
+                          support application; it does not create portal login credentials.
+                          Final submission uses the existing application/backend flow.
                         </p>
                       </motion.section>
                     ) : null}

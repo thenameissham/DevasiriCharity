@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -13,7 +14,6 @@ import {
   PremiumAccessOverlay,
   type AuthIntent
 } from "@/components/auth/premium-access-overlay";
-import { ApplicationJourneyAssistant } from "@/components/blocks/application-journey-assistant";
 import { ExperienceCommandCenter } from "@/components/experience/experience-command-center";
 import { AdaptiveExperienceOrchestrator } from "@/components/experience/adaptive-experience-orchestrator";
 import { CinematicJourneyNavigator } from "@/components/experience/cinematic-journey-navigator";
@@ -46,23 +46,27 @@ export function useMotionExperience() {
 }
 
 export function MotionProvider({ children }: { readonly children: ReactNode }) {
-  const [reducedMotion, setReducedMotionState] = useState(false);
+  const pathname = usePathname();
+  const isApplicationRoute = pathname === "/apply" || pathname.startsWith("/apply/");
+  const isApplicationFormRoute = pathname === "/apply/start" || pathname.startsWith("/apply/start/");
+  const [reducedMotion, setReducedMotionState] = useState(() => {
+    if (typeof window === "undefined") return false;
+
+    const stored = window.localStorage.getItem("devasiri-reduced-motion");
+    if (stored !== null) return stored === "true";
+
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [authIntent, setAuthIntent] = useState<AuthIntent>("branch");
 
   useEffect(() => {
-    const stored = localStorage.getItem("devasiri-reduced-motion");
-
-    if (stored) {
-      setReducedMotionState(stored === "true");
-      return;
-    }
-
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotionState(mediaQuery.matches);
 
     function handleChange(event: MediaQueryListEvent) {
-      setReducedMotionState(event.matches);
+      if (localStorage.getItem("devasiri-reduced-motion") === null) {
+        setReducedMotionState(event.matches);
+      }
     }
 
     mediaQuery.addEventListener("change", handleChange);
@@ -98,14 +102,16 @@ export function MotionProvider({ children }: { readonly children: ReactNode }) {
     <MotionExperienceContext.Provider value={value}>
       <DevasiriThemeProvider>
         {children}
-        <AdaptiveExperienceOrchestrator />
-        <CinematicJourneyNavigator />
-        <ContextualExperienceCopilot />
-        <StudentApplicationCommandCompanion />
-        <ApplicationJourneyAssistant />
-        <ExperienceCommandCenter />
-        <DevasiriThemeSwitcher />
-        <ReduceMotionToggle />
+        {/* Application pages use a distraction-free workspace. The shared floating
+            experience tools are intentionally withheld while students complete
+            eligibility or application tasks. */}
+        {!isApplicationRoute ? <AdaptiveExperienceOrchestrator /> : null}
+        {!isApplicationRoute ? <CinematicJourneyNavigator /> : null}
+        {!isApplicationRoute ? <ContextualExperienceCopilot /> : null}
+        {isApplicationFormRoute ? <StudentApplicationCommandCompanion /> : null}
+        {!isApplicationRoute ? <ExperienceCommandCenter /> : null}
+        {!isApplicationRoute ? <DevasiriThemeSwitcher /> : null}
+        {!isApplicationRoute ? <ReduceMotionToggle /> : null}
         <PremiumAccessOverlay
           isOpen={isAuthOpen}
           initialIntent={authIntent}

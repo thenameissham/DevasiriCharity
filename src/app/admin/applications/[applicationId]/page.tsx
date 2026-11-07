@@ -10,6 +10,9 @@ interface AdminApplicationDetailPageProps {
   readonly params: Promise<{
     applicationId: string;
   }>;
+  readonly searchParams: Promise<{
+    error?: string;
+  }>;
 }
 
 const statuses = [
@@ -51,10 +54,11 @@ function Row({
 }
 
 export default async function AdminApplicationDetailPage({
-  params
+  params,
+  searchParams
 }: AdminApplicationDetailPageProps) {
   const session = await requireRole(["ADMIN"]);
-  const routeParams = await params;
+  const [routeParams, query] = await Promise.all([params, searchParams]);
 
   const application = await prisma.studentApplication.findUnique({
     where: {
@@ -73,6 +77,15 @@ export default async function AdminApplicationDetailPage({
       description="Review student details, academic proof links, financial need, and update application status."
       userName={session.user.name ?? session.user.email ?? "Admin"}
     >
+      {query.error ? (
+        <div
+          role="alert"
+          className="mb-5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm font-medium text-amber-950"
+        >
+          {query.error}
+        </div>
+      ) : null}
+
       <div className="grid gap-6 xl:grid-cols-[1fr_380px]">
         <div className="grid gap-6">
           <DashboardPanel
@@ -131,6 +144,7 @@ export default async function AdminApplicationDetailPage({
           >
             <form action={updateStudentApplicationStatusAction} className="grid gap-4">
               <input type="hidden" name="applicationId" value={application.id} />
+              <input type="hidden" name="currentStatus" value={application.status} />
 
               <label>
                 <span className="text-sm font-bold text-slate-700">Status</span>

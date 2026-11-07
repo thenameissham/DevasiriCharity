@@ -44,7 +44,7 @@ export const authOptions: NextAuthOptions = {
           }
         });
 
-        if (!user?.passwordHash || user.status === "SUSPENDED") {
+        if (!user?.passwordHash || user.status !== "ACTIVE") {
           return null;
         }
 

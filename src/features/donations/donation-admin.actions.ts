@@ -9,14 +9,17 @@ import { prisma } from "@/lib/prisma";
 const donationReviewSchema = z.object({
   donationId: z.string().uuid(),
   action: z.enum(["MARK_SUCCESS", "MARK_FAILED"]),
-  adminNotes: z.string().optional()
+  adminNotes: z
+    .string()
+    .trim()
+    .max(1000, "Admin notes must be 1,000 characters or fewer")
+    .optional(),
 });
 
 export async function reviewDonationAction(formData: FormData) {
   const session = await requireRole(["ADMIN"]);
-
   const parsed = donationReviewSchema.safeParse(
-    Object.fromEntries(formData.entries())
+    Object.fromEntries(formData.entries()),
   );
 
   if (!parsed.success) {
@@ -24,12 +27,8 @@ export async function reviewDonationAction(formData: FormData) {
   }
 
   const donation = await prisma.donation.findUnique({
-    where: {
-      id: parsed.data.donationId
-    },
-    include: {
-      campaign: true
-    }
+    where: { id: parsed.data.donationId },
+    include: { campaign: true },
   });
 
   if (!donation) {
@@ -40,16 +39,30 @@ export async function reviewDonationAction(formData: FormData) {
     redirect(`/admin/donations/${donation.id}?error=Donation%20already%20reviewed`);
   }
 
+  const adminNotes = parsed.data.adminNotes || null;
+
   if (parsed.data.action === "MARK_FAILED") {
-    await prisma.$transaction(async (tx) => {
-      const updated = await tx.donation.update({
-        where: {
-          id: donation.id
-        },
+    // Conditional transition ensures two concurrent admin submissions cannot
+    // both review the same pending donation.
+    const reviewed = await prisma.$transaction(async (tx) => {
+      const transition = await tx.donation.updateMany({
+        where: { id: donation.id, status: "PENDING" },
         data: {
-          status: "FAILED"
-        }
+          status: "FAILED",
+          paymentStatus: "FAILED",
+          adminNotes,
+        },
       });
+
+      if (transition.count !== 1) return false;
+
+      const updated = await tx.donation.findUnique({
+        where: { id: donation.id },
+      });
+
+      if (!updated) {
+        throw new Error("Donation disappeared during review transaction");
+      }
 
       await tx.auditLog.create({
         data: {
@@ -58,15 +71,24 @@ export async function reviewDonationAction(formData: FormData) {
           entity: "Donation",
           entityId: updated.id,
           oldValue: {
-            status: donation.status
+            status: donation.status,
+            paymentStatus: donation.paymentStatus,
+            adminNotes: donation.adminNotes,
           },
           newValue: {
             status: updated.status,
-            adminNotes: parsed.data.adminNotes ?? null
-          }
-        }
+            paymentStatus: updated.paymentStatus,
+            adminNotes: updated.adminNotes,
+          },
+        },
       });
+
+      return true;
     });
+
+    if (!reviewed) {
+      redirect(`/admin/donations/${donation.id}?error=Donation%20already%20reviewed`);
+    }
 
     revalidatePath("/admin");
     revalidatePath("/admin/donations");
@@ -74,25 +96,34 @@ export async function reviewDonationAction(formData: FormData) {
     redirect(`/admin/donations/${donation.id}`);
   }
 
-  await prisma.$transaction(async (tx) => {
-    const updated = await tx.donation.update({
-      where: {
-        id: donation.id
-      },
+  // A pending -> success transition, campaign total increment and audit record
+  // are committed together. A second concurrent request cannot double-count it.
+  const completedAt = new Date();
+  const reviewed = await prisma.$transaction(async (tx) => {
+    const transition = await tx.donation.updateMany({
+      where: { id: donation.id, status: "PENDING" },
       data: {
-        status: "SUCCESS"
-      }
+        status: "SUCCESS",
+        paymentStatus: "SUCCESS",
+        paidAt: completedAt,
+        donatedAt: completedAt,
+        adminNotes,
+      },
     });
 
+    if (transition.count !== 1) return false;
+
+    const updated = await tx.donation.findUnique({
+      where: { id: donation.id },
+    });
+
+    if (!updated) throw new Error("Donation disappeared during review transaction");
+
     await tx.campaign.update({
-      where: {
-        id: donation.campaignId
-      },
+      where: { id: donation.campaignId },
       data: {
-        raisedAmountPaise: {
-          increment: donation.amountPaise
-        }
-      }
+        raisedAmountPaise: { increment: donation.amountPaise },
+      },
     });
 
     await tx.auditLog.create({
@@ -102,17 +133,28 @@ export async function reviewDonationAction(formData: FormData) {
         entity: "Donation",
         entityId: updated.id,
         oldValue: {
-          status: donation.status
+          status: donation.status,
+          paymentStatus: donation.paymentStatus,
+          adminNotes: donation.adminNotes,
         },
         newValue: {
           status: updated.status,
+          paymentStatus: updated.paymentStatus,
+          paidAt: updated.paidAt?.toISOString() ?? null,
+          donatedAt: updated.donatedAt?.toISOString() ?? null,
           amountPaise: updated.amountPaise,
           receiptNumber: updated.receiptNumber,
-          adminNotes: parsed.data.adminNotes ?? null
-        }
-      }
+          adminNotes: updated.adminNotes,
+        },
+      },
     });
+
+    return true;
   });
+
+  if (!reviewed) {
+    redirect(`/admin/donations/${donation.id}?error=Donation%20already%20reviewed`);
+  }
 
   revalidatePath("/");
   revalidatePath("/campaigns");

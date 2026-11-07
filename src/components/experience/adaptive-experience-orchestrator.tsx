@@ -410,18 +410,26 @@ function ApplicationPrefillBridge() {
   useEffect(() => {
     if (!shouldShow) return;
 
-    const savedDraft = sessionStorage.getItem(PREFILL_KEY);
+    const restoreTimer = window.setTimeout(() => {
+      const savedDraft = sessionStorage.getItem(PREFILL_KEY);
 
-    if (!savedDraft) return;
+      if (!savedDraft) {
+        setDraft(null);
+        return;
+      }
 
-    try {
-      const parsed = JSON.parse(savedDraft) as PrefillDraft;
-      setDraft(parsed);
-      setApplied(false);
-      setHidden(false);
-    } catch {
-      sessionStorage.removeItem(PREFILL_KEY);
-    }
+      try {
+        const parsed = JSON.parse(savedDraft) as PrefillDraft;
+        setDraft(parsed);
+        setApplied(false);
+        setHidden(false);
+      } catch {
+        sessionStorage.removeItem(PREFILL_KEY);
+        setDraft(null);
+      }
+    }, 0);
+
+    return () => window.clearTimeout(restoreTimer);
   }, [shouldShow, pathname]);
 
   const availableFields = useMemo(() => {

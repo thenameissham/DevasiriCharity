@@ -34,8 +34,9 @@ export default withAuth(
     }
 
     const role = token?.role;
+    const status = token?.status;
 
-    if (typeof role !== "string") {
+    if (typeof role !== "string" || status !== "ACTIVE") {
       return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
     }
 

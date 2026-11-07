@@ -4,20 +4,23 @@ import { notFound } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
+  CalendarDays,
+  BookOpenText,
   CheckCircle2,
   GraduationCap,
   HeartHandshake,
   IndianRupee,
-  ShieldCheck,
-  Users
+  Target,
 } from "lucide-react";
+import { Footer } from "@/components/layouts/footer";
 import { Navbar } from "@/components/layouts/navbar";
 import { Button } from "@/components/ui/button";
+import { getPublicCampaignBySlug } from "@/features/campaigns/campaign.queries";
 import {
   formatINRFromPaise,
+  getCampaignDateLabel,
   getCampaignProgress,
-  getPublicCampaignBySlug
-} from "@/features/campaigns/campaign.queries";
+} from "@/lib/campaign-display";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -30,11 +33,11 @@ interface CampaignDetailPageProps {
 
 export const metadata: Metadata = {
   title: "Campaign Details",
-  description: "View verified Devasiri education support campaign details."
+  description: "Explore Devasiri education support campaign details.",
 };
 
 export default async function CampaignDetailPage({
-  params
+  params,
 }: CampaignDetailPageProps) {
   const routeParams = await params;
   const campaign = await getPublicCampaignBySlug(routeParams.slug);
@@ -45,197 +48,181 @@ export default async function CampaignDetailPage({
 
   const progress = getCampaignProgress(
     campaign.raisedAmountPaise,
-    campaign.goalAmountPaise
+    campaign.goalAmountPaise,
+  );
+  const campaignDateLabel = getCampaignDateLabel(
+    campaign.startDate,
+    campaign.endDate,
+    "long",
   );
 
   return (
     <>
       <Navbar />
-
-      <main className="relative min-h-screen overflow-hidden bg-[#f7fbff] px-6 pb-20 pt-32 sm:px-8 lg:px-12">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(180deg,#ffffff_0%,#f7fbff_46%,#edf6ff_100%)]"
-        />
-
-        <div
-          aria-hidden="true"
-          className="absolute -left-40 top-16 h-[520px] w-[520px] rounded-full bg-blue-300/24 blur-[90px]"
-        />
-
-        <div
-          aria-hidden="true"
-          className="absolute right-[-180px] top-24 h-[620px] w-[620px] rounded-full bg-cyan-300/24 blur-[100px]"
-        />
-
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 devasiri-grid-mask opacity-50"
-        />
-
-        <section className="relative mx-auto max-w-7xl">
+      <main className="min-h-screen bg-[#f6f8fa] px-4 pb-16 pt-28 sm:px-6 sm:pt-32 lg:px-8">
+        <div className="mx-auto max-w-6xl">
           <Link
             href="/campaigns"
-            className="inline-flex items-center gap-2 rounded-[16px] border border-slate-200 bg-white/74 px-4 py-2 text-sm font-bold text-slate-700 shadow-sm backdrop-blur-xl transition hover:bg-white"
+            className="inline-flex items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-[#59636e] transition-colors hover:bg-white hover:text-[#1f2328] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1f883d]"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to campaigns
+            <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+            All campaigns
           </Link>
 
-          <div className="mt-8 grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div>
-              <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-blue-50 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-blue-700 ring-1 ring-blue-100">
-                  {campaign.category}
-                </span>
-
-                {campaign.isFeatured ? (
-                  <span className="rounded-full bg-amber-50 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-amber-700 ring-1 ring-amber-100">
-                    Featured
+          <section className="mt-4 overflow-hidden rounded-xl border border-[#d1d9e0] bg-white">
+            <div className="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.95fr)]">
+              <div className="p-5 sm:p-8 lg:p-10">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-[#d1d9e0] bg-[#f6f8fa] px-3 py-1 text-xs font-semibold text-[#59636e]">
+                    {campaign.category}
                   </span>
+                  {campaign.isFeatured ? (
+                    <span className="rounded-full border border-[#bfdbfe] bg-[#eff6ff] px-3 py-1 text-xs font-semibold text-[#1d4ed8]">
+                      Featured campaign
+                    </span>
+                  ) : null}
+                </div>
+
+                <h1 className="mt-5 max-w-2xl text-3xl font-semibold leading-tight tracking-tight text-[#1f2328] sm:text-4xl lg:text-[2.8rem]">
+                  {campaign.title}
+                </h1>
+                <p className="mt-4 max-w-2xl text-base leading-7 text-[#59636e]">
+                  {campaign.description}
+                </p>
+
+                {campaignDateLabel ? (
+                  <p className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-[#59636e]">
+                    <CalendarDays aria-hidden="true" className="h-4 w-4 shrink-0" />
+                    <span>{campaignDateLabel}</span>
+                  </p>
                 ) : null}
 
-                <span className="rounded-full bg-emerald-50 px-4 py-2 text-xs font-black uppercase tracking-[0.14em] text-emerald-700 ring-1 ring-emerald-100">
-                  Verified
-                </span>
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                  <Button
+                    href={`/campaigns/${campaign.slug}/donate`}
+                    size="lg"
+                    className="rounded-md bg-[#1f883d] shadow-none hover:bg-[#1a7f37] focus-visible:outline-[#1f883d]"
+                  >
+                    Explore support options
+                    <HeartHandshake aria-hidden="true" className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    href="/apply"
+                    variant="secondary"
+                    size="lg"
+                    className="rounded-md shadow-none"
+                  >
+                    Student support
+                    <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
 
-              <h1 className="mt-6 max-w-4xl text-5xl font-black tracking-[-0.08em] text-slate-950 sm:text-6xl">
-                {campaign.title}
-              </h1>
-
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-                {campaign.description}
-              </p>
-
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button
-                  href={`/campaigns/${campaign.slug}/donate`}
-                  size="lg"
-                  className="rounded-[20px] px-7 devasiri-shine"
-                >
-                  Support this Campaign
-                  <HeartHandshake className="h-5 w-5" />
-                </Button>
-
-                <Button
-                  href="/apply"
-                  variant="secondary"
-                  size="lg"
-                  className="rounded-[20px] px-7"
-                >
-                  Student? Check Eligibility
-                  <ArrowRight className="h-5 w-5" />
-                </Button>
+              <div className="flex min-h-[240px] items-center justify-center border-t border-[#d1d9e0] bg-[#f6f8fa] p-6 sm:p-8 lg:border-l lg:border-t-0">
+                <img
+                  src={campaign.coverImageUrl ?? "/illustrations/campaign-education-support.png"}
+                  alt={campaign.title}
+                  className="h-auto max-h-[340px] w-full max-w-[520px] object-contain"
+                />
               </div>
             </div>
+          </section>
 
-            <div className="relative">
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-200/50 via-cyan-100/40 to-transparent blur-3xl"
-              />
-
-              <img
-                src={campaign.coverImageUrl ?? "/illustrations/campaign-education-support.png"}
-                alt={campaign.title}
-                className="relative mx-auto h-auto w-full max-w-[760px] object-contain"
-              />
-            </div>
-          </div>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-4">
-            <div className="rounded-[28px] border border-white/70 bg-white/74 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-              <IndianRupee className="h-6 w-6 text-blue-600" />
-              <p className="mt-4 text-3xl font-black tracking-[-0.06em] text-slate-950">
+          <section aria-label="Campaign progress" className="mt-4 grid gap-3 md:grid-cols-3">
+            <div className="rounded-lg border border-[#d1d9e0] bg-white p-5">
+              <div className="flex items-center gap-2 text-sm font-medium text-[#59636e]">
+                <IndianRupee aria-hidden="true" className="h-4 w-4" />
+                Recorded support
+              </div>
+              <p className="mt-3 text-2xl font-semibold tracking-tight text-[#1f2328]">
                 {formatINRFromPaise(campaign.raisedAmountPaise)}
               </p>
-              <p className="mt-1 text-sm font-semibold text-slate-600">
-                raised so far
-              </p>
+              <p className="mt-1 text-sm text-[#59636e]">Amount currently recorded for this campaign</p>
             </div>
-
-            <div className="rounded-[28px] border border-white/70 bg-white/74 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-              <GraduationCap className="h-6 w-6 text-cyan-600" />
-              <p className="mt-4 text-3xl font-black tracking-[-0.06em] text-slate-950">
+            <div className="rounded-lg border border-[#d1d9e0] bg-white p-5">
+              <div className="flex items-center gap-2 text-sm font-medium text-[#59636e]">
+                <GraduationCap aria-hidden="true" className="h-4 w-4" />
+                Campaign goal
+              </div>
+              <p className="mt-3 text-2xl font-semibold tracking-tight text-[#1f2328]">
                 {formatINRFromPaise(campaign.goalAmountPaise)}
               </p>
-              <p className="mt-1 text-sm font-semibold text-slate-600">
-                support goal
-              </p>
+              <p className="mt-1 text-sm text-[#59636e]">Published support target</p>
             </div>
-
-            <div className="rounded-[28px] border border-white/70 bg-white/74 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-              <Users className="h-6 w-6 text-emerald-600" />
-              <p className="mt-4 text-3xl font-black tracking-[-0.06em] text-slate-950">
-                {campaign.donationCount}
-              </p>
-              <p className="mt-1 text-sm font-semibold text-slate-600">
-                donation records
-              </p>
-            </div>
-
-            <div className="rounded-[28px] border border-white/70 bg-white/74 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-              <ShieldCheck className="h-6 w-6 text-blue-600" />
-              <p className="mt-4 text-3xl font-black tracking-[-0.06em] text-slate-950">
+            <div className="rounded-lg border border-[#d1d9e0] bg-white p-5">
+              <div className="flex items-center gap-2 text-sm font-medium text-[#59636e]">
+                <Target aria-hidden="true" className="h-4 w-4" />
+                Progress toward goal
+              </div>
+              <p className="mt-3 text-2xl font-semibold tracking-tight text-[#1f2328]">
                 {progress}%
               </p>
-              <p className="mt-1 text-sm font-semibold text-slate-600">
-                campaign progress
-              </p>
+              <div
+                role="progressbar"
+                aria-label="Campaign goal progress"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={progress}
+                aria-valuetext={`${progress}% of campaign goal recorded`}
+                className="mt-3 h-2 overflow-hidden rounded-full bg-[#d8dee4]"
+              >
+                <div
+                  className="h-full rounded-full bg-[#1f883d] transition-[width] duration-300"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
-          </div>
+          </section>
 
-          <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_380px]">
-            <article className="rounded-[36px] border border-white/70 bg-white/76 p-7 shadow-[0_28px_90px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
-                Campaign Story
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black tracking-[-0.06em] text-slate-950">
-                Why this campaign matters
+          <section className="mt-4 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <article className="rounded-xl border border-[#d1d9e0] bg-white p-5 sm:p-8">
+              <div className="flex items-center gap-2 text-sm font-semibold text-[#1f883d]">
+                <BookOpenText aria-hidden="true" className="h-4 w-4" />
+                About this campaign
+              </div>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-[#1f2328]">
+                Why this support matters
               </h2>
-
-              <p className="mt-5 whitespace-pre-line text-base leading-8 text-slate-600">
+              <p className="mt-4 whitespace-pre-line text-base leading-7 text-[#59636e]">
                 {campaign.story ??
-                  "This campaign supports verified education needs so that students can continue their learning journey with dignity, accountability, and transparent support."}
+                  "This campaign describes an education support need. Review the campaign details and intended purpose before proceeding. Devasiri aims to connect community support with students’ ability to continue learning."}
               </p>
             </article>
 
-            <aside className="rounded-[36px] border border-white/70 bg-white/76 p-6 shadow-[0_28px_90px_rgba(15,23,42,0.08)] backdrop-blur-2xl">
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
-                Trust Checklist
-              </p>
-
-              <div className="mt-5 grid gap-3">
-                {[
-                  "Campaign verified by admin",
-                  "Donation records are traceable",
-                  "Support progress is visible",
-                  "Receipt reference is generated"
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 rounded-[18px] border border-slate-200 bg-slate-50/80 px-4 py-3 text-sm font-bold text-slate-700"
-                  >
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
-                    {item}
-                  </div>
-                ))}
-              </div>
-
+            <aside className="h-fit rounded-xl border border-[#d1d9e0] bg-white p-5 sm:p-6">
+              <h2 className="text-lg font-semibold tracking-tight text-[#1f2328]">
+                Before you continue
+              </h2>
+              <ul className="mt-4 space-y-3 text-sm leading-6 text-[#59636e]">
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#1f883d]" />
+                  Review the campaign purpose and description.
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#1f883d]" />
+                  Check the current recorded amount and support goal.
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <CheckCircle2 aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[#1f883d]" />
+                  Review the next-step details before submitting a support request.
+                </li>
+              </ul>
               <Button
                 href={`/campaigns/${campaign.slug}/donate`}
                 size="lg"
-                className="mt-6 w-full rounded-[20px]"
+                className="mt-5 w-full rounded-md bg-[#1f883d] shadow-none hover:bg-[#1a7f37]"
               >
-                Continue Support
-                <HeartHandshake className="h-5 w-5" />
+                Continue
+                <ArrowRight aria-hidden="true" className="h-4 w-4" />
               </Button>
+              <p className="mt-3 text-xs leading-5 text-[#59636e]">
+                This page displays campaign information. It does not confirm a completed payment.
+              </p>
             </aside>
           </section>
-        </section>
+        </div>
       </main>
+      <Footer />
     </>
   );
 }

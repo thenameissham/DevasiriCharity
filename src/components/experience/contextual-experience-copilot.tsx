@@ -8,7 +8,6 @@ import {
   BadgeCheck,
   BookOpenCheck,
   Compass,
-  FileCheck2,
   GraduationCap,
   HeartHandshake,
   ReceiptText,
@@ -207,7 +206,8 @@ export function ContextualExperienceCopilot() {
   const guide = useMemo(() => resolveGuide(pathname), [pathname]);
 
   useEffect(() => {
-    setIsOpen(false);
+    const closeTimer = window.setTimeout(() => setIsOpen(false), 0);
+    return () => window.clearTimeout(closeTimer);
   }, [pathname]);
 
   if (!guide) return null;

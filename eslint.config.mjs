@@ -1,4 +1,4 @@
-import nextVitals from "eslint-config-next/core-web-vitals";
+﻿import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
 
 const eslintConfig = [
@@ -15,7 +15,8 @@ const eslintConfig = [
       ".turbo/**",
       "out/**",
       ".vercel/**",
-      ".devasiri-backups/**"
+      ".devasiri-backups/**",
+      ".repair-backups/**"
     ]
   }
 ];

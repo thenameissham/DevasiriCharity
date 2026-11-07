@@ -11,11 +11,20 @@ interface ReceiptPageProps {
   }>;
 }
 
+export const metadata: Metadata = {
+  title: "Donation Record | Devasiri",
+  description: "Check the status of a Devasiri donation record.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 function formatINRFromPaise(value: number): string {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
-    maximumFractionDigits: 0
+    maximumFractionDigits: 0,
   }).format(value / 100);
 }
 
@@ -23,137 +32,144 @@ function formatDate(date: Date): string {
   return new Intl.DateTimeFormat("en-IN", {
     day: "numeric",
     month: "long",
-    year: "numeric"
+    year: "numeric",
+    timeZone: "Asia/Kolkata",
   }).format(date);
 }
 
-export const metadata: Metadata = {
-  title: "Donation Receipt",
-  description: "Devasiri donation receipt verification page."
-};
-
 export default async function ReceiptPage({ params }: ReceiptPageProps) {
-  const routeParams = await params;
+  const { receiptNumber } = await params;
 
+  // Select only fields needed by this public lookup. Never load donor contact
+  // information into a route that can be opened without authentication.
   const donation = await prisma.donation.findFirst({
-    where: {
-      receiptNumber: routeParams.receiptNumber
+    where: { receiptNumber },
+    select: {
+      amountPaise: true,
+      currency: true,
+      status: true,
+      paymentStatus: true,
+      createdAt: true,
+      paidAt: true,
+      donatedAt: true,
+      campaign: {
+        select: {
+          title: true,
+          category: true,
+        },
+      },
     },
-    include: {
-      campaign: true
-    }
   });
 
-  if (!donation) {
-    notFound();
-  }
+  if (!donation) notFound();
 
-  const isVerified = donation.status === "SUCCESS";
+  const isConfirmed =
+    donation.status === "SUCCESS" && donation.paymentStatus === "SUCCESS";
+  const isRefunded =
+    donation.status === "REFUNDED" || donation.paymentStatus === "REFUNDED";
+  const isFailed =
+    donation.status === "FAILED" ||
+    donation.status === "CANCELLED" ||
+    donation.paymentStatus === "FAILED" ||
+    donation.paymentStatus === "CANCELLED";
+  const statusLabel = isConfirmed
+    ? "Confirmed donation record"
+    : isRefunded
+      ? "Refund recorded"
+      : isFailed
+        ? "Not confirmed"
+        : "Pending confirmation";
+  const recordDate = donation.paidAt ?? donation.donatedAt ?? donation.createdAt;
 
   return (
-    <main className="min-h-screen px-6 py-12 sm:px-8 lg:px-12">
-      <section className="mx-auto max-w-4xl">
-        <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
-          <Link href="/" className="text-sm font-black text-blue-700">
+    <main className="min-h-screen px-4 py-10 sm:px-8 sm:py-12 lg:px-12">
+      <section className="mx-auto max-w-3xl">
+        <div className="mb-6">
+          <Link href="/" className="text-sm font-semibold text-blue-700 hover:underline">
             Devasiri Charitable Trust
           </Link>
         </div>
 
-        <article className="rounded-[36px] border border-slate-200 bg-white p-8 shadow-[0_28px_90px_rgba(15,23,42,0.08)]">
-          <div className="flex flex-col justify-between gap-6 border-b border-slate-200 pb-6 sm:flex-row sm:items-start">
+        <article className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+          <div className="flex flex-col gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.18em] text-blue-600">
-                Donation Receipt
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                Donation record
               </p>
-
-              <h1 className="mt-3 text-4xl font-black tracking-[-0.065em] text-slate-950">
-                {donation.receiptNumber}
+              <h1 className="mt-2 break-all text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+                {receiptNumber}
               </h1>
-
-              <p className="mt-3 text-sm leading-6 text-slate-600">
-                Receipt generated for Devasiri Charitable Trust campaign support.
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                Check the current recorded status of this reference.
               </p>
             </div>
 
             <div
               className={
-                isVerified
-                  ? "rounded-[22px] bg-emerald-50 px-5 py-4 text-emerald-700"
-                  : "rounded-[22px] bg-amber-50 px-5 py-4 text-amber-700"
+                isConfirmed
+                  ? "inline-flex shrink-0 items-center gap-2 rounded-lg bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-800"
+                  : "inline-flex shrink-0 items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-800"
               }
+              role="status"
             >
-              <div className="flex items-center gap-2 text-sm font-black">
-                <CheckCircle2 className="h-5 w-5" />
-                {isVerified ? "Verified Donation" : "Pending Verification"}
-              </div>
+              <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+              {statusLabel}
             </div>
           </div>
 
-          <div className="grid gap-5 py-8 sm:grid-cols-2">
-            <div className="rounded-[24px] bg-slate-50 p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                Donor
-              </p>
-              <p className="mt-2 text-lg font-black text-slate-950">
-                {donation.donorName}
-              </p>
-              <p className="mt-1 text-sm text-slate-600">{donation.donorEmail}</p>
-            </div>
-
-            <div className="rounded-[24px] bg-slate-50 p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                Amount
-              </p>
-              <p className="mt-2 text-lg font-black text-slate-950">
+          <dl className="grid gap-3 py-6 sm:grid-cols-2">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                {isConfirmed ? "Recorded amount" : "Intended amount"}
+              </dt>
+              <dd className="mt-2 text-xl font-semibold text-slate-950">
                 {formatINRFromPaise(donation.amountPaise)}
-              </p>
-              <p className="mt-1 text-sm text-slate-600">{donation.currency}</p>
+              </dd>
+              <dd className="mt-1 text-sm text-slate-600">{donation.currency}</dd>
             </div>
 
-            <div className="rounded-[24px] bg-slate-50 p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Campaign
-              </p>
-              <p className="mt-2 text-lg font-black text-slate-950">
+              </dt>
+              <dd className="mt-2 text-base font-semibold text-slate-950">
                 {donation.campaign.title}
-              </p>
-              <p className="mt-1 text-sm text-slate-600">
-                {donation.campaign.category}
-              </p>
+              </dd>
+              <dd className="mt-1 text-sm text-slate-600">
+                {donation.campaign.category.replaceAll("_", " ")}
+              </dd>
             </div>
 
-            <div className="rounded-[24px] bg-slate-50 p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                Record Date
-              </p>
-              <p className="mt-2 text-lg font-black text-slate-950">
-                {formatDate(donation.updatedAt)}
-              </p>
-              <p className="mt-1 text-sm text-slate-600">
-                Status: {donation.status}
-              </p>
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:col-span-2">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                Record date
+              </dt>
+              <dd className="mt-2 text-sm font-medium text-slate-900">
+                {formatDate(recordDate)}
+              </dd>
             </div>
-          </div>
+          </dl>
 
-          <div className="rounded-[28px] border border-blue-100 bg-blue-50 p-5">
-            <div className="flex gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[18px] bg-white text-blue-600">
-                <HeartHandshake className="h-6 w-6" />
+          <div className="rounded-lg border border-slate-200 bg-white p-4 sm:p-5">
+            <div className="flex items-start gap-3">
+              <HeartHandshake className="mt-0.5 h-5 w-5 shrink-0 text-slate-500" aria-hidden="true" />
+              <div>
+                <h2 className="text-sm font-semibold text-slate-900">
+                  {isConfirmed ? "About this record" : "This is not a payment receipt"}
+                </h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">
+                  {isConfirmed
+                    ? "Devasiri has marked this donation record as confirmed. This page is a status lookup, not a tax receipt or payment-provider confirmation. Contact the trust for an official receipt."
+                    : "This reference does not confirm that money was received. Online payment processing and official receipt generation are separate steps. Please contact the trust if you need help with this record."}
+                </p>
               </div>
-
-              <p className="text-sm leading-6 text-blue-950/80">
-                This page verifies that the donation record exists in the
-                Devasiri platform. Final tax receipt format, 80G fields, digital
-                signature, and PDF download can be added after legal details are
-                finalized.
-              </p>
             </div>
           </div>
         </article>
 
-        <div className="mt-8 flex justify-center print:hidden">
+        <div className="mt-6 flex justify-center print:hidden">
           <Button href="/campaigns" variant="secondary">
-            View More Campaigns
+            View campaigns
           </Button>
         </div>
       </section>

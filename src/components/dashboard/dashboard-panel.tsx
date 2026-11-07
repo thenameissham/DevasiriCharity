@@ -11,27 +11,23 @@ export function DashboardPanel({
   title,
   description,
   children,
-  className
+  className,
 }: DashboardPanelProps) {
   return (
     <section
       className={cn(
-        "rounded-[32px] border border-slate-200 bg-white/82 p-6 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl",
-        className
+        "rounded-lg border border-[#d1d9e0] bg-white p-5 sm:p-6",
+        className,
       )}
     >
-      <div className="mb-6">
-        <h2 className="text-xl font-bold tracking-[-0.04em] text-slate-950">
+      <div className="mb-5 border-b border-[#d8dee4] pb-4">
+        <h2 className="text-lg font-semibold tracking-tight text-[#1f2328]">
           {title}
         </h2>
-
         {description ? (
-          <p className="mt-2 text-sm leading-6 text-slate-600">
-            {description}
-          </p>
+          <p className="mt-1.5 text-sm leading-6 text-[#59636e]">{description}</p>
         ) : null}
       </div>
-
       {children}
     </section>
   );

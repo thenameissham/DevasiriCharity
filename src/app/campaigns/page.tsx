@@ -8,8 +8,7 @@ export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Campaigns",
-  description:
-    "Explore Devasiri education support campaigns for verified students."
+  description: "Explore active Devasiri education support campaigns.",
 };
 
 export default async function CampaignsPage() {
@@ -18,7 +17,9 @@ export default async function CampaignsPage() {
   const safeCampaigns = campaigns.map((campaign) => ({
     ...campaign,
     createdAt: campaign.createdAt.toISOString(),
-    updatedAt: campaign.updatedAt.toISOString()
+    updatedAt: campaign.updatedAt.toISOString(),
+    startDate: campaign.startDate?.toISOString() ?? null,
+    endDate: campaign.endDate?.toISOString() ?? null,
   }));
 
   return (

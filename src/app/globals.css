@@ -1,17 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #08111f;
+  color-scheme: light;
+  --background: #ffffff;
+  --foreground: #24292f;
   --surface: #ffffff;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --primary: #2563eb;
-  --primary-dark: #1d4ed8;
-  --accent: #06b6d4;
-  --success: #16a34a;
-  --warning: #f59e0b;
-  --danger: #e11d48;
+  --muted: #59636e;
+  --border: #d0d7de;
+  --primary: #1f883d;
+  --primary-dark: #1a7f37;
+  --accent: #0969da;
+  --success: #1f883d;
+  --warning: #9a6700;
+  --danger: #cf222e;
+
+  /* Devasiri design tokens, inspired by GitHub's disciplined UI system. */
+  --theme-primary: #1f883d;
+  --theme-primary-dark: #1a7f37;
+  --theme-accent: #0969da;
+  --theme-accent-soft: #ddf4ff;
+  --theme-border: #d0d7de;
+  --theme-ink: #24292f;
+  --theme-navy: #1f2328;
+  --theme-ring: rgba(31, 136, 61, 0.24);
+  --theme-soft: #f6f8fa;
+  --theme-surface: #ffffff;
 }
 
 * {
@@ -27,21 +40,16 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 10% 5%, rgba(37, 99, 235, 0.14), transparent 28%),
-    radial-gradient(circle at 90% 10%, rgba(6, 182, 212, 0.12), transparent 26%),
-    linear-gradient(180deg, #ffffff 0%, #f8fafc 42%, #eef4ff 100%);
+  background: #ffffff;
   color: var(--foreground);
   font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "SF Pro Display",
-    "SF Pro Text",
     "Segoe UI",
-    Roboto,
     "Helvetica Neue",
+    Helvetica,
     Arial,
     sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
 }
 
 button,
@@ -154,19 +162,6 @@ a {
   mask-image: radial-gradient(circle at 55% 35%, black 0%, transparent 72%);
 }
 
-.devasiri-float-slow {
-  animation: devasiri-float 8s ease-in-out infinite;
-}
-
-.devasiri-float-medium {
-  animation: devasiri-float 6s ease-in-out infinite;
-}
-
-.devasiri-shine {
-  position: relative;
-  overflow: hidden;
-}
-
 .devasiri-shine::after {
   content: "";
   position: absolute;
@@ -182,124 +177,9 @@ a {
   animation: devasiri-shine 4.8s ease-in-out infinite;
 }
 
-@keyframes devasiri-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -14px, 0);
-  }
-}
-
-@keyframes devasiri-shine {
-  0% {
-    left: -45%;
-  }
-
-  45%,
-  100% {
-    left: 125%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .devasiri-float-slow,
-  .devasiri-float-medium,
-  .devasiri-shine::after {
-    animation: none;
-  }
-}
-
 /* Devasiri premium static design system */
-.devasiri-grid-mask {
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(circle at 56% 36%, black 0%, transparent 74%);
-}
-
-.devasiri-float-slow {
-  animation: devasiri-float 8s ease-in-out infinite;
-}
-
-.devasiri-float-medium {
-  animation: devasiri-float 6s ease-in-out infinite;
-}
-
-.devasiri-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.devasiri-shine::after {
-  content: "";
-  position: absolute;
-  inset: -60% auto -60% -40%;
-  width: 38%;
-  transform: rotate(18deg);
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.6),
-    transparent
-  );
-  animation: devasiri-shine 4.8s ease-in-out infinite;
-}
-
-@keyframes devasiri-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -14px, 0);
-  }
-}
-
-@keyframes devasiri-shine {
-  0% {
-    left: -45%;
-  }
-
-  45%,
-  100% {
-    left: 125%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .devasiri-float-slow,
-  .devasiri-float-medium,
-  .devasiri-shine::after {
-    animation: none;
-  }
-}
 
 /* Devasiri premium homepage enhancement */
-.devasiri-grid-mask {
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(circle at 56% 36%, black 0%, transparent 74%);
-}
-
-.devasiri-float-slow {
-  animation: devasiri-float 8s ease-in-out infinite;
-}
-
-.devasiri-float-medium {
-  animation: devasiri-float 6s ease-in-out infinite;
-}
-
-.devasiri-shine {
-  position: relative;
-  overflow: hidden;
-}
 
 .devasiri-shine::after {
   content: "";
@@ -314,28 +194,6 @@ a {
     transparent
   );
   animation: devasiri-shine 4.8s ease-in-out infinite;
-}
-
-@keyframes devasiri-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -14px, 0);
-  }
-}
-
-@keyframes devasiri-shine {
-  0% {
-    left: -45%;
-  }
-
-  45%,
-  100% {
-    left: 125%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -347,26 +205,6 @@ a {
 }
 
 /* Devasiri premium motion foundation */
-.devasiri-grid-mask {
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(circle at 56% 36%, black 0%, transparent 74%);
-}
-
-.devasiri-float-slow {
-  animation: devasiri-float 8s ease-in-out infinite;
-}
-
-.devasiri-float-medium {
-  animation: devasiri-float 6s ease-in-out infinite;
-}
-
-.devasiri-shine {
-  position: relative;
-  overflow: hidden;
-}
 
 .devasiri-shine::after {
   content: "";
@@ -381,28 +219,6 @@ a {
     transparent
   );
   animation: devasiri-shine 4.8s ease-in-out infinite;
-}
-
-@keyframes devasiri-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -14px, 0);
-  }
-}
-
-@keyframes devasiri-shine {
-  0% {
-    left: -45%;
-  }
-
-  45%,
-  100% {
-    left: 125%;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -437,19 +253,6 @@ a {
   mask-image: radial-gradient(circle at 56% 36%, black 0%, transparent 74%);
 }
 
-.devasiri-float-slow {
-  animation: devasiri-float 8s ease-in-out infinite;
-}
-
-.devasiri-float-medium {
-  animation: devasiri-float 6s ease-in-out infinite;
-}
-
-.devasiri-shine {
-  position: relative;
-  overflow: hidden;
-}
-
 .devasiri-shine::after {
   content: "";
   position: absolute;
@@ -463,36 +266,6 @@ a {
     transparent
   );
   animation: devasiri-shine 4.8s ease-in-out infinite;
-}
-
-@keyframes devasiri-float {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(0, -14px, 0);
-  }
-}
-
-@keyframes devasiri-shine {
-  0% {
-    left: -45%;
-  }
-
-  45%,
-  100% {
-    left: 125%;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .devasiri-float-slow,
-  .devasiri-float-medium,
-  .devasiri-shine::after {
-    animation: none !important;
-  }
 }
 
 /* Devasiri trust theme: deep navy + teal + soft gold */
@@ -650,32 +423,8 @@ a {
 }
 
 /* Devasiri interaction engine */
-::selection {
-  background: color-mix(in srgb, var(--theme-primary) 24%, white);
-  color: var(--theme-ink);
-}
 
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--theme-surface);
-}
-
-button,
-a,
-input,
-textarea,
-select {
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
+/* Devasiri interaction engine */
 
 /* Devasiri interaction engine */
 ::selection {
@@ -689,42 +438,6 @@ html {
 
 body {
   background: var(--theme-surface);
-}
-
-button,
-a,
-input,
-textarea,
-select {
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* Devasiri interaction engine */
-::selection {
-  background: color-mix(in srgb, var(--theme-primary) 24%, white);
-  color: var(--theme-ink);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--theme-surface);
-}
-
-button,
-a,
-input,
-textarea,
-select {
-  -webkit-tap-highlight-color: transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -764,13 +477,6 @@ body {
     sans-serif;
 }
 
-.footer-link-underline {
-  position: relative;
-  width: fit-content;
-  text-decoration: none;
-  transition: color 220ms ease;
-}
-
 .footer-link-underline::after {
   content: "";
   position: absolute;
@@ -784,13 +490,6 @@ body {
   transition: transform 220ms ease;
 }
 
-.footer-link-underline:hover {
-  color: #ffffff;
-}
-
-.footer-link-underline:hover::after {
-  transform: scaleX(1);
-}
 /* DEVASIRI_UI_REFINEMENT_END */
 
 /* DEVASIRI_VISIBILITY_REPAIR_START */
@@ -1282,3 +981,194 @@ section:has(
 }
 
 /* CONTENT_SAFE_STORYTELLING_END */
+
+/* Devasiri interface foundation — shared, light-first, accessible defaults. */
+html {
+  scroll-padding-top: 6.5rem;
+}
+
+body {
+  font-synthesis: none;
+}
+
+::selection {
+  background: rgba(31, 136, 61, 0.18);
+  color: #1f2328;
+}
+
+:focus-visible {
+  outline: 3px solid rgba(9, 105, 218, 0.55);
+  outline-offset: 3px;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+textarea,
+select {
+  color: #24292f;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6e7781;
+  opacity: 1;
+}
+
+.devasiri-home {
+  background: #ffffff;
+  color: #24292f;
+  font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.devasiri-home section[id] {
+  scroll-margin-top: 6rem;
+}
+
+.devasiri-home h1,
+.devasiri-home h2,
+.devasiri-home h3 {
+  text-wrap: balance;
+}
+
+.devasiri-home p {
+  text-wrap: pretty;
+}
+
+.devasiri-home .devasiri-surface {
+  border: 1px solid #d0d7de;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.04);
+}
+
+.devasiri-home a,
+.devasiri-home button {
+  transition:
+    color 140ms ease,
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease,
+    transform 140ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .devasiri-home *,
+  .devasiri-home *::before,
+  .devasiri-home *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Scoped typography and component normalization for the public homepage. */
+.devasiri-home h1 {
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+}
+
+.devasiri-home h2,
+.devasiri-home h3 {
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.devasiri-home article.group {
+  border-radius: 12px;
+  border-color: #d0d7de;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.04);
+  backdrop-filter: none;
+}
+
+.devasiri-home article.group:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(31, 35, 40, 0.08);
+}
+
+.devasiri-home .programCard,
+.devasiri-home article[class*="programCard"] {
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.04);
+}
+
+.devasiri-home [class*="rounded-[34px]"],
+.devasiri-home [class*="rounded-[38px]"],
+.devasiri-home [class*="rounded-[40px]"],
+.devasiri-home [class*="rounded-[32px]"] {
+  border-radius: 12px;
+}
+
+.devasiri-home [class*="backdrop-blur"] {
+  backdrop-filter: none;
+}
+
+.devasiri-home [class*="shadow-[0_"] {
+  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.05);
+}
+
+
+/* Devasiri shared layout tokens — one responsive rhythm for public pages. */
+:root {
+  --ds-font-sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ds-content-max: 80rem;
+  --ds-page-gutter: clamp(1rem, 3.2vw, 3rem);
+  --ds-section-space: clamp(3.5rem, 6.5vw, 6rem);
+  --ds-surface: #ffffff;
+  --ds-canvas: #f6f8fa;
+  --ds-ink: #24292f;
+  --ds-muted: #59636e;
+  --ds-border: #d0d7de;
+  --ds-border-strong: #afb8c1;
+  --ds-primary: #1f883d;
+  --ds-primary-hover: #1a7f37;
+  --ds-radius-control: 0.5rem;
+  --ds-radius-card: 0.75rem;
+  --ds-shadow-subtle: 0 1px 2px rgba(31, 35, 40, 0.05);
+  --ds-focus-ring: 0 0 0 3px rgba(9, 105, 218, 0.28);
+}
+
+/* Keep font and horizontal rhythm consistent across the homepage. */
+body {
+  font-family: var(--ds-font-sans);
+}
+
+.devasiri-home {
+  font-family: var(--ds-font-sans);
+}
+
+.devasiri-home > main > section,
+.devasiri-home > footer {
+  padding-inline: var(--ds-page-gutter);
+}
+
+.devasiri-home h1,
+.devasiri-home h2,
+.devasiri-home h3 {
+  font-family: var(--ds-font-sans);
+}
+
+/* Motion is an enhancement, never a prerequisite for understanding or use. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .devasiri-home *,
+  .devasiri-home *::before,
+  .devasiri-home *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
